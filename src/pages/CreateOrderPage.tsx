@@ -13,27 +13,47 @@ export const CreateOrderPage: FC = () => {
     const [selectedValues, setSelectedValues] = useState<MultiselectOption[]>([]);
 
     const handleSelect = (selectedOptions: MultiselectOption[]) => {
+        console.log("current list:", selectedOptions);
         setSelectedValues(selectedOptions);
     };
 
     const handleMainButtonClick = () => {
-        console.log('MainButton clicked', selectedValues);
+        let validSelections: string[] = [];
+
+        let i = 0;
+
+        for (i = 0; i < selectedValues.length; i++) {
+            console.log("выбрано:", selectedValues[i])
+            validSelections.push(selectedValues[i].value.toString());
+        }
+
+        if (validSelections.length == 0) {
+            console.warn('Не выбрано ни одной валидной опции!');
+            return;
+        }
+        console.log('MainButton clicked', validSelections);
     };
 
     useEffect(() => {
-        mainButton.mount();
-        mainButton.setParams({
-            text: 'Создать заказ',
-            isVisible: true,
-        });
+            mainButton.mount();
+            mainButton.setParams({
+                text: 'Создать заказ',
+                isVisible: true,
+            });
 
-        mainButton.onClick(handleMainButtonClick);
+            mainButton.onClick(handleMainButtonClick);
 
-        return () => {
-            mainButton.offClick(handleMainButtonClick);
-            mainButton.unmount();
-        };
-    }, [selectedValues]);
+            return () => {
+                mainButton.offClick(handleMainButtonClick);
+                mainButton.setParams({
+                    isVisible: false,
+                });
+
+                console.log("удаляем...")
+                mainButton.unmount();
+            };
+
+    }, []);
 
     return (
         <Page>
