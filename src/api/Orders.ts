@@ -1,4 +1,4 @@
-import {Order} from "@/models/Order.ts";
+import {Order, OrderCreate} from "@/models/Order.ts";
 
 const fallbackOrders: Order[] = [
     { id: 1, title: 'Разработка на C++', bid: '5000 руб.', description: 'Создание высокопроизводительного приложения на C++.' },
@@ -14,28 +14,65 @@ const fallbackOrders: Order[] = [
 ];
 
 export const getOrders = async (): Promise<Order[]> => {
-    try {
-        const ResponseOrders = await fetch("/api/orders");
-        if (!ResponseOrders.ok) {
-            throw new Error('Не удалось загрузить заказы');
-        }
-        const data = await ResponseOrders.json();
-        return data.orders || [];
-    } catch (error) {
-        console.error(error);
-        return fallbackOrders;
-    }
+    const ResponseOrders = await fetch("https://3lvvww-109-252-122-97.ru.tuna.am/orders", {
+                method: "GET",
+                headers: {"tuna-skip-browser-warning": "3243"}
+            });
+
+    return []
+    // try {
+    //     const ResponseOrders = await fetch("https://3lvvww-109-252-122-97.ru.tuna.am/orders", {
+    //         method: "GET",
+    //         headers: {"tuna-skip-browser-warning": "3243"}
+    //     });
+    //
+    //     console.log("Response status:", ResponseOrders.status);
+    //     console.log("Response headers:", ResponseOrders.headers);
+    //
+    //     if (!ResponseOrders.ok) {
+    //         throw new Error('Не удалось загрузить заказы');
+    //     }
+    //     const data = await ResponseOrders.json();
+    //     console.warn(data)
+    //     return data.orders || [];
+    // } catch (error) {
+    //     console.error(error);
+    //     return []
+    //     // return fallbackOrders;
+    // }
 }
 
 export const getOrderById = async (id: number): Promise<Order> => {
     try {
-        const ResponseOrder = await fetch(`/api/orders/${id}`);
+        const ResponseOrder = await fetch(`https://ek4f7j-109-252-122-97.ru.tuna.am/orders/${id}`, {
+            method: "GET",
+            headers: {"tuna-skip-browser-warning": "3243"}
+        });
         if (!ResponseOrder.ok) {
             throw new Error('Не удалось получить заказ');
         }
-        const data = ResponseOrder.json();
-        return data;
+        return ResponseOrder.json();
     } catch (err) {
         return fallbackOrders[id];
+    }
+}
+
+export const createOrder = async (data: OrderCreate): Promise<string> => {
+    try {
+        const responseOrder = await fetch(`https://ek4f7j-109-252-122-97.ru.tuna.am/orders`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {"content-type": 'application/json', "tuna-skip-browser-warning": "3243"},
+        })
+
+        if (!responseOrder.ok) {
+            throw new Error("Ошибка при создании заказа");
+        }
+
+        const result = await responseOrder.json();
+        return result.orderID;
+    } catch (err) {
+        console.error(err);
+        return "f9c97bc0-dbd9-464c-91db-68e61c34b30e";
     }
 }

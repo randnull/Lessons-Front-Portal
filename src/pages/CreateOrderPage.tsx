@@ -1,8 +1,11 @@
-import { FC, useState, useEffect } from 'react';
+import {FC, useEffect, useRef, useState} from 'react';
 import { Page } from '@/components/Page.tsx';
-import { List, Input, Multiselect } from '@telegram-apps/telegram-ui';
-import { MultiselectOption } from '@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types';
-import { mainButton } from '@telegram-apps/sdk-react';
+import {List, Input, Textarea, Headline, Multiselect} from '@telegram-apps/telegram-ui';
+import {mainButton} from "@telegram-apps/sdk-react";
+import {OrderCreate} from "@/models/Order.ts";
+import {createOrder} from "@/api/Orders.ts";
+import {useNavigate} from "react-router-dom";
+import {MultiselectOption} from "@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types";
 
 const options: MultiselectOption[] = [
     { value: 'cpp', label: 'C++' },
@@ -11,55 +14,96 @@ const options: MultiselectOption[] = [
 
 export const CreateOrderPage: FC = () => {
     const [selectedValues, setSelectedValues] = useState<MultiselectOption[]>([]);
+    const [title, setTitle] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
+
+    const titleRef = useRef(title);
+    const descriptionRef = useRef(description);
+
+    const navigate = useNavigate();
 
     const handleSelect = (selectedOptions: MultiselectOption[]) => {
-        console.log("current list:", selectedOptions);
         setSelectedValues(selectedOptions);
     };
 
-    const handleMainButtonClick = () => {
-        let validSelections: string[] = [];
-
-        let i = 0;
-
-        for (i = 0; i < selectedValues.length; i++) {
-            console.log("выбрано:", selectedValues[i])
-            validSelections.push(selectedValues[i].value.toString());
-        }
-
-        if (validSelections.length == 0) {
-            console.warn('Не выбрано ни одной валидной опции!');
-            return;
-        }
-        console.log('MainButton clicked', validSelections);
-    };
+    useEffect(() => {
+        titleRef.current = title;
+        descriptionRef.current = description
+    }, [title, description]);
 
     useEffect(() => {
+        if (!mainButton.isMounted()) {
             mainButton.mount();
+        }
+        if (mainButton.setParams.isAvailable()) {
             mainButton.setParams({
-                text: 'Создать заказ',
-                isVisible: true,
+                text: 'Submit',
+                isEnabled: true,
+                isVisible: true
+            });
+        }
+
+        const offClick = mainButton.onClick(async () => {
+            mainButton.setParams({
+                isLoaderVisible: true,
+                isEnabled: false
             });
 
-            mainButton.onClick(handleMainButtonClick);
+            const orderData: OrderCreate = {
+                title: titleRef.current,
+                description: descriptionRef.current,
+                min_price: 1000,
+                max_price: 2000
+            };
 
-            return () => {
-                mainButton.offClick(handleMainButtonClick);
+            const orderId = await createOrder(orderData);
+
+            console.log("Order ID:", orderId, orderData);
+
+            mainButton.setParams({
+                isLoaderVisible: false,
+                isEnabled: true
+            });
+
+            alert('Заказ создан!')
+
+            navigate(`/orders`);
+        });
+
+        return () => {
+                offClick();
                 mainButton.setParams({
                     isVisible: false,
                 });
-
-                console.log("удаляем...")
+                console.log("удаляем...");
                 mainButton.unmount();
-            };
-
+            }
     }, []);
 
     return (
         <Page>
             <List>
-                <Input header="Описание" placeholder="I am usual input, just leave me alone" />
+                <Headline weight="2" style={{ marginBottom: '8px' }}>
+                    Введите название заказа
+                </Headline>
+                <Input
+                    header="adwdwada"
+                    placeholder="Дискретная математика/Алгебра логики/..."
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+                <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
+                    Опишите задачу
+                </Headline>
+                <Textarea
+                    header="Описание"
+                    // status={"focused"}
+                    placeholder="Я хочу сделать ..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
                 <Multiselect
+                    closeDropdownAfterSelect={true}
                     options={options}
                     value={selectedValues}
                     onChange={handleSelect}

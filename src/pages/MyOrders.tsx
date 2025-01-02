@@ -16,6 +16,7 @@ export const MyOrdersPage: FC = () => {
         const LoadOrders = async () => {
             try {
                 const data = await getOrders();
+                console.warn(data)
                 SetNeworders(data);
             } catch (err) {
                 SetError("Не получили заказы ");
