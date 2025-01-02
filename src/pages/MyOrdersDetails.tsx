@@ -16,7 +16,7 @@ export const OrderDetailsPage: FC = () => {
         const currentOrder = async () => {
             if (id) {
                 try {
-                    const OrderData = await getOrderById(parseInt(id, 10));
+                    const OrderData = await getOrderById(id);
                     setOrder(OrderData);
                 } catch (err) {
                     setError('Не удалось получить заказ');
@@ -49,8 +49,8 @@ export const OrderDetailsPage: FC = () => {
     return <Page back={true}>
         <div>
             <Headline weight="1">Мои заказы</Headline>
-            <Headline weight="1">{order.title}</Headline>
-            <p>Ставка: {order.bid}</p>
+            <Headline weight="1">{order.subject}</Headline>
+            <p>Ставка: {order.max_price}</p>
             <p>Описание: {order.description}</p>
         </div>
     </Page>

@@ -1,68 +1,52 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
 
-const fallbackOrders: Order[] = [
-    { id: 1, title: 'Разработка на C++', bid: '5000 руб.', description: 'Создание высокопроизводительного приложения на C++.' },
-    { id: 2, title: 'Скрипт на Python', bid: '3000 руб.', description: 'Написание скрипта для автоматизации задач на Python.' },
-    { id: 3, title: 'Веб-сайт на React', bid: '10000 руб.', description: 'Разработка современного веб-сайта с использованием React.' },
-    { id: 4, title: 'Мобильное приложение на Flutter', bid: '15000 руб.', description: 'Создание кроссплатформенного мобильного приложения на Flutter.' },
-    { id: 5, title: 'База данных на SQL', bid: '4000 руб.', description: 'Проектирование и создание базы данных на SQL.' },
-    { id: 6, title: 'API на Node.js', bid: '7000 руб.', description: 'Разработка RESTful API на Node.js.' },
-    { id: 7, title: 'Анализ данных на R', bid: '6000 руб.', description: 'Анализ и визуализация данных с использованием языка R.' },
-    { id: 8, title: 'Игра на Unity', bid: '20000 руб.', description: 'Разработка 2D/3D игры на Unity.' },
-    { id: 9, title: 'Сайт на WordPress', bid: '8000 руб.', description: 'Создание и настройка сайта на WordPress.' },
-    { id: 10, title: 'Машинное обучение на Python', bid: '12000 руб.', description: 'Разработка модели машинного обучения на Python.' },
-];
+
+const api_link: string = 'https://foh1fm-109-252-122-97.ru.tuna.am';
 
 export const getOrders = async (): Promise<Order[]> => {
-    const ResponseOrders = await fetch("https://3lvvww-109-252-122-97.ru.tuna.am/orders", {
-                method: "GET",
-                headers: {"tuna-skip-browser-warning": "3243"}
-            });
+    try {
+        const ResponseOrders = await fetch(`${api_link}/orders`, {
+            method: "GET",
+        });
 
-    return []
-    // try {
-    //     const ResponseOrders = await fetch("https://3lvvww-109-252-122-97.ru.tuna.am/orders", {
-    //         method: "GET",
-    //         headers: {"tuna-skip-browser-warning": "3243"}
-    //     });
-    //
-    //     console.log("Response status:", ResponseOrders.status);
-    //     console.log("Response headers:", ResponseOrders.headers);
-    //
-    //     if (!ResponseOrders.ok) {
-    //         throw new Error('Не удалось загрузить заказы');
-    //     }
-    //     const data = await ResponseOrders.json();
-    //     console.warn(data)
-    //     return data.orders || [];
-    // } catch (error) {
-    //     console.error(error);
-    //     return []
-    //     // return fallbackOrders;
-    // }
+        console.log("Response status:", ResponseOrders.status);
+        console.log("Response headers:", ResponseOrders.headers);
+
+        if (!ResponseOrders.ok) {
+            throw new Error('Не удалось загрузить заказы');
+        }
+        const data = await ResponseOrders.json();
+        console.log("Сохраняем заказы в состояние:", data);
+        console.warn(data)
+        return data || [];
+    } catch (error) {
+        console.error(error);
+        return []
+        // return fallbackOrders;
+    }
 }
 
-export const getOrderById = async (id: number): Promise<Order> => {
+export const getOrderById = async (id: string): Promise<Order | null> => {
     try {
-        const ResponseOrder = await fetch(`https://ek4f7j-109-252-122-97.ru.tuna.am/orders/${id}`, {
+        const ResponseOrder = await fetch(`${api_link}/orders/${id}`, {
             method: "GET",
-            headers: {"tuna-skip-browser-warning": "3243"}
         });
         if (!ResponseOrder.ok) {
             throw new Error('Не удалось получить заказ');
         }
         return ResponseOrder.json();
     } catch (err) {
-        return fallbackOrders[id];
+        return null;
+        // return fallbackOrders[id];
     }
 }
 
 export const createOrder = async (data: OrderCreate): Promise<string> => {
     try {
-        const responseOrder = await fetch(`https://ek4f7j-109-252-122-97.ru.tuna.am/orders`, {
+        const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: {"content-type": 'application/json', "tuna-skip-browser-warning": "3243"},
+            headers: {"content-type": 'application/json'},
         })
 
         if (!responseOrder.ok) {

@@ -16,9 +16,10 @@ export const MyOrdersPage: FC = () => {
         const LoadOrders = async () => {
             try {
                 const data = await getOrders();
-                console.warn(data)
+                console.log("Сохраняем заказы в состояние MyOrders:", data);
                 SetNeworders(data);
             } catch (err) {
+                console.log(err);
                 SetError("Не получили заказы ");
             } finally {
                 SetIsLoading(false);
@@ -32,7 +33,7 @@ export const MyOrdersPage: FC = () => {
         navigate("/create-order");
     }
 
-    const HandleLinkFunc = (id: number) => {
+    const HandleLinkFunc = (id: string) => {
         navigate(`/order/${id}`);
     }
 
@@ -63,8 +64,8 @@ export const MyOrdersPage: FC = () => {
                     {LoadOrder.map((order, index) => (
                         <Banner
                             key={index}
-                            header={order.title}
-                            subheader={order.bid}
+                            header={order.subject}
+                            subheader={order.id}
                             description={order.description}
                             className={styles.orderItem}
                             onClick={() => HandleLinkFunc(order.id)}
