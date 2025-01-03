@@ -1,11 +1,12 @@
 export interface Order {
     id: string;
     student_id: string;
-    tutor_id: string;
-    subject: string;
+    title: string;
     description: string;
+    tags: string[];
     min_price: number;
     max_price: number;
+    status: string;
     created_at: string;
     updated_at: string;
 }
@@ -13,6 +14,7 @@ export interface Order {
 export interface OrderCreate {
     title: string;
     description: string;
+    tags: string[];
     min_price: number;
     max_price: number;
 }

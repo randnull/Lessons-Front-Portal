@@ -1,19 +1,20 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
 
+const api_link: string = 'https://l51ff5-109-252-122-97.ru.tuna.am';
 
-const api_link: string = 'https://foh1fm-109-252-122-97.ru.tuna.am';
-
-export const getOrders = async (): Promise<Order[]> => {
+export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
         const ResponseOrders = await fetch(`${api_link}/orders`, {
             method: "GET",
+            headers: {"token": userdata },
         });
 
         console.log("Response status:", ResponseOrders.status);
         console.log("Response headers:", ResponseOrders.headers);
 
         if (!ResponseOrders.ok) {
-            throw new Error('Не удалось загрузить заказы');
+            const errorText = await ResponseOrders.text();
+            throw new Error(errorText || 'Не удалось загрузить заказы');
         }
         const data = await ResponseOrders.json();
         console.log("Сохраняем заказы в состояние:", data);
@@ -22,31 +23,34 @@ export const getOrders = async (): Promise<Order[]> => {
     } catch (error) {
         console.error(error);
         return []
-        // return fallbackOrders;
     }
 }
 
-export const getOrderById = async (id: string): Promise<Order | null> => {
+export const getOrderById = async (id: string, userdata: string): Promise<Order | null> => {
     try {
         const ResponseOrder = await fetch(`${api_link}/orders/${id}`, {
             method: "GET",
+            headers: {"token": userdata },
         });
+
+        console.log("Response status:", ResponseOrder.status);
+        console.log("Response headers:", ResponseOrder.headers);
+
         if (!ResponseOrder.ok) {
             throw new Error('Не удалось получить заказ');
         }
         return ResponseOrder.json();
     } catch (err) {
         return null;
-        // return fallbackOrders[id];
     }
 }
 
-export const createOrder = async (data: OrderCreate): Promise<string> => {
+export const createOrder = async (data: OrderCreate, userdata: string): Promise<string> => {
     try {
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: {"content-type": 'application/json'},
+            headers: {"content-type": 'application/json', "token": userdata},
         })
 
         if (!responseOrder.ok) {
@@ -57,6 +61,5 @@ export const createOrder = async (data: OrderCreate): Promise<string> => {
         return result.orderID;
     } catch (err) {
         console.error(err);
-        return "f9c97bc0-dbd9-464c-91db-68e61c34b30e";
     }
 }

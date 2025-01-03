@@ -52,6 +52,7 @@ export const CreateOrderPage: FC = () => {
             const orderData: OrderCreate = {
                 title: titleRef.current,
                 description: descriptionRef.current,
+                tags: ["C++", "Programming"],
                 min_price: 1000,
                 max_price: 2000
             };
@@ -74,6 +75,7 @@ export const CreateOrderPage: FC = () => {
                 offClick();
                 mainButton.setParams({
                     isVisible: false,
+                    isEnabled: false,
                 });
                 console.log("удаляем...");
                 mainButton.unmount();
@@ -87,7 +89,7 @@ export const CreateOrderPage: FC = () => {
                     Введите название заказа
                 </Headline>
                 <Input
-                    header="adwdwada"
+                    header="Название"
                     placeholder="Дискретная математика/Алгебра логики/..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
