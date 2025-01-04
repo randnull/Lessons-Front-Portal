@@ -1,6 +1,6 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
 
-const api_link: string = 'https://l51ff5-109-252-122-97.ru.tuna.am';
+const api_link: string = 'https://ar2hdr-109-252-122-97.ru.tuna.am';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
@@ -45,7 +45,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<Order 
     }
 }
 
-export const createOrder = async (data: OrderCreate, userdata: string): Promise<string> => {
+export const createOrder = async (data: OrderCreate, userdata: string): Promise<string | null> => {
     try {
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
@@ -61,5 +61,6 @@ export const createOrder = async (data: OrderCreate, userdata: string): Promise<
         return result.orderID;
     } catch (err) {
         console.error(err);
+        return null;
     }
 }

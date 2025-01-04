@@ -77,7 +77,7 @@ export const MyOrdersPage: FC = () => {
                             before={<Avatar size={48} />}
                             description={order.description}
                             // subhead={order.}
-                            // subtitle="Subtitle"
+                            // subtitle={order.min_price}
                             titleBadge={<Badge type="dot" />}
                             onClick={() => HandleLinkFunc(order.id)}
                         >

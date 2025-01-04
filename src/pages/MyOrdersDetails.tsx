@@ -57,7 +57,7 @@ export const OrderDetailsPage: FC = () => {
         <div>
             <Headline weight="1">Мои заказы</Headline>
             <Headline weight="1">{order.title}</Headline>
-            <p>Ставка: {order.max_price}</p>
+            <p>Ставка: {order.min_price} - {order.max_price}</p>
             <p>Описание: {order.description}</p>
         </div>
     </Page>

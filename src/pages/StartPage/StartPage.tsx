@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initData, useSignal } from '@telegram-apps/sdk-react';
-import { ValidateInitData } from '@/api/auth';
+// import { ValidateInitData } from '@/api/auth';
 
 export const StartPage: FC = () => {
     const initDataRaw = useSignal<string | undefined>(initData.raw);
