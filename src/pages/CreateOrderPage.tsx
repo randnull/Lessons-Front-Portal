@@ -76,7 +76,7 @@ export const CreateOrderPage: FC = () => {
                 text: 'Submit',
                 // убрать в отдельную проверку!
                 // нужен ли ref?
-                isEnabled: titleRef.current.trim() !== '' && descriptionRef.current.trim() !== '' && tagsRef.current.length > 0, // прикол
+                isEnabled: true,//titleRef.current.trim() !== '' && descriptionRef.current.trim() !== '' && tagsRef.current.length > 0, // прикол
                 isVisible: true
             });
         }

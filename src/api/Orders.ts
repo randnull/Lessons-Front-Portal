@@ -1,6 +1,6 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
 
-const api_link: string = 'https://ar2hdr-109-252-122-97.ru.tuna.am';
+const api_link: string = 'https://6plrky-109-252-122-97.ru.tuna.am';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {

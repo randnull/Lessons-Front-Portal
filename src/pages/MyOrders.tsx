@@ -89,10 +89,3 @@ export const MyOrdersPage: FC = () => {
         </Page>
     );
 };
-
-
-{/*key={index}*/}
-{/*header={order.subject}*/}
-{/*subheader={order.id}*/}
-{/*description={order.description}*/}
-{/*className={styles.orderItem}*/}
