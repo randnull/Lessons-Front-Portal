@@ -16,7 +16,7 @@ interface Route {
 
 export const routes: Route[] = [
   { path: '/', Component: StartPage},
-  { path: '/orders', Component: MyOrdersPage, title: 'Init Data' },
+  { path: '/orders', Component: MyOrdersPage},
   { path: '/create-order', Component: CreateOrderPage },
   { path: '/order/:id', Component: OrderDetailsPage },
 ];

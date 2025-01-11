@@ -13,7 +13,6 @@
     left: 20px;
 }
 
-
 .buttonContainer {
     display: flex;
     justify-content: flex-end;
@@ -27,14 +26,13 @@
     text-align: center;
     margin-top: 20px;
     font-size: 16px;
-    color: var(--tgui--text_secondary);
+    color: var(--tgui--bg_color);
 }
 
 .noOrders img {
     width: 150px; /* Установить ширину изображения */
     height: auto; /* Автоматически подстраивать высоту */
 }
-
 
 .orderList {
     margin-top: 20px;

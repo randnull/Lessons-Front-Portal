@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from 'react';
 import { Page } from '@/components/Page';
-import {Avatar, Badge, Button, Cell, Headline, Placeholder} from '@telegram-apps/telegram-ui';
+import {Badge, Button, Cell, Headline, Placeholder} from '@telegram-apps/telegram-ui';
 import styles from './MyOrdersPage.module.css';
 import {useNavigate} from "react-router-dom";
 import {Order} from "@/models/Order.ts";
@@ -74,7 +74,7 @@ export const MyOrdersPage: FC = () => {
                         <Cell
                             key={index}
                             after={<Badge type="number">5</Badge>}
-                            before={<Avatar size={48} />}
+                            // before={<Avatar size={48} />}
                             description={order.description}
                             // subhead={order.}
                             // subtitle={order.min_price}

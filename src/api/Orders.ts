@@ -45,11 +45,11 @@ export const getOrderById = async (id: string, userdata: string): Promise<Order 
     }
 }
 
-export const createOrder = async (data: OrderCreate, userdata: string): Promise<string | null> => {
+export const createOrder = async (orderdata: OrderCreate, userdata: string): Promise<string | null> => {
     try {
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(orderdata),
             headers: {"content-type": 'application/json', "token": userdata},
         })
 
@@ -62,5 +62,40 @@ export const createOrder = async (data: OrderCreate, userdata: string): Promise<
     } catch (err) {
         console.error(err);
         return null;
+    }
+}
+
+export const deleteOrder = async (id: string, userdata: string): Promise<void> => {
+    try {
+        const responseOrder = await fetch(`${api_link}/orders/${id}`, {
+            method: "DELETE",
+            headers: {"token": userdata },
+        })
+
+        if (!responseOrder.ok) {
+            const error = await responseOrder.json();
+            throw new Error("Ошибка при удалении заказа:" + error.error);
+        }
+    } catch (error) {
+        // throw new Error("Ошибка при удалении заказа:")
+        console.error(error);
+    }
+}
+
+export const updateOrder = async (id: string, userdata: string, orderdata: OrderCreate): Promise<void> => {
+    try {
+        const responseOrder = await fetch(`${api_link}/orders/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(orderdata),
+            headers: {"token": userdata },
+        })
+
+        if (!responseOrder.ok) {
+            const error = await responseOrder.json();
+            throw new Error("Ошибка при обновлении заказа" + error.error);
+        }
+    } catch (error) {
+        // throw new Error("Ошибка при удалении заказа:")
+        console.error(error);
     }
 }

@@ -35,6 +35,8 @@ export const CreateOrderPage: FC = () => {
     const titleRef = useRef(title);
     const descriptionRef = useRef(description);
     const tagsRef = useRef(tags);
+    const minPriceRef = useRef(minPrice);
+    const maxPriceRef = useRef(maxPrice);
 
     const navigate = useNavigate();
 
@@ -65,7 +67,9 @@ export const CreateOrderPage: FC = () => {
         titleRef.current = title;
         descriptionRef.current = description;
         tagsRef.current = tags;
-    }, [title, description, tags]);
+        minPriceRef.current = minPrice;
+        maxPriceRef.current = maxPrice;
+    }, [title, description, tags, minPrice, maxPrice]);
 
     useEffect(() => {
         if (!mainButton.isMounted()) {
@@ -96,8 +100,8 @@ export const CreateOrderPage: FC = () => {
                 title: titleRef.current,
                 description: descriptionRef.current,
                 tags: tagsRef.current,
-                min_price: minPrice,
-                max_price: maxPrice
+                min_price: minPriceRef.current,
+                max_price: maxPriceRef.current
             };
 
             console.warn("tags:" + tagsRef.current)
