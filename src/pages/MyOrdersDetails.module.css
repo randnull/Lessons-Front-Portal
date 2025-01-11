@@ -14,11 +14,10 @@
 }
 
 .spinner {
-
-    /*border: 1px dashed #9747FF;*/
-    /*borderRadius: 5px;*/
-    /*padding: 20px;*/
-    /*width: 400px;*/
+    border: 1px dashed #9747FF;
+    borderRadius: 5px;
+    padding: 20px;
+    width: 400px;
 }
 
 .orderDetails {
