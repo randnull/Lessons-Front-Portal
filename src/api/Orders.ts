@@ -1,6 +1,7 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
-
-const api_link: string = 'https://lessons-8rqw.onrender.com';
+// lessonsmy.tech
+// backend.lessonsmy.tech
+const api_link: string = 'https://lessonsmy.tech';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
@@ -22,13 +23,13 @@ export const getOrders = async (userdata: string): Promise<Order[]> => {
         return data || [];
     } catch (error) {
         console.error(error);
-        return []
+        return [] //
     }
 }
 
 export const getOrderById = async (id: string, userdata: string): Promise<Order | null> => {
     try {
-        const ResponseOrder = await fetch(`${api_link}/orders/${id}`, {
+        const ResponseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "GET",
             headers: {"token": userdata },
         });
@@ -47,6 +48,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<Order 
 
 export const createOrder = async (orderdata: OrderCreate, userdata: string): Promise<string | null> => {
     try {
+        console.log(userdata);
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
             body: JSON.stringify(orderdata),
@@ -67,7 +69,7 @@ export const createOrder = async (orderdata: OrderCreate, userdata: string): Pro
 
 export const deleteOrder = async (id: string, userdata: string): Promise<void> => {
     try {
-        const responseOrder = await fetch(`${api_link}/orders/${id}`, {
+        const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "DELETE",
             headers: {"token": userdata },
         })
@@ -84,7 +86,7 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
 
 export const updateOrder = async (id: string, userdata: string, orderdata: OrderCreate): Promise<void> => {
     try {
-        const responseOrder = await fetch(`${api_link}/orders/${id}`, {
+        const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "PUT",
             body: JSON.stringify(orderdata),
             headers: {"token": userdata },
