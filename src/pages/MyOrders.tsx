@@ -73,12 +73,12 @@ export const MyOrdersPage: FC = () => {
                     {LoadOrder.map((order, index) => (
                         <Cell
                             key={index}
-                            after={<Badge type="number">3</Badge>}
+                            after={<Badge type="number">0</Badge>}
                             // before={<Avatar size={48} />}
                             description={order.description}
                             // subhead={order.}
                             // subtitle={order.min_price}
-                            titleBadge={<Badge type="dot" />}
+                            // titleBadge={order.status == "New" ? <Badge type="dot"/>: <Badge type="dot"/>}
                             onClick={() => HandleLinkFunc(order.id)}
                         >
                             {order.title}

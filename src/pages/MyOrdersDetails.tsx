@@ -1,7 +1,7 @@
 import {FC, useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import { Page } from '@/components/Page';
-import {Headline, Spinner} from '@telegram-apps/telegram-ui';
+import {Button, Headline, Spinner} from '@telegram-apps/telegram-ui';
 import {Order} from "@/models/Order.ts";
 import {getOrderById} from "@/api/Orders.ts";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
@@ -46,17 +46,29 @@ export const OrderDetailsPage: FC = () => {
                     </div>
                 ): isLoading ? (
                     <Spinner className={styles.spinner} size="l"/>
-                    // {' '}
-                    // <br />
                 ): !order ? (
                     <Headline weight="1">Заказа не существует</Headline>
                 ) : (
                     <>
-                        <Headline weight="2">Детали заказа</Headline>
+                        <Headline weight="2">Детали заказа # {order.id.slice(0,8)}</Headline>
                         <div className={styles.orderDetails}>
-                        <Headline weight="1">{order.title}</Headline>
-                        <p>Ставка: {order.min_price} - {order.max_price}</p>
-                        <p>Описание: {order.description}</p>
+                            <Headline weight="1">{order.title}</Headline>
+                            <p>Ставка: {order.min_price} - {order.max_price}</p>
+                            <p>Описание: {order.description}</p>
+                            <p>Статус: </p>
+                        </div>
+                        <Headline weight="2" className={styles.calls}>Отклики</Headline>
+                        <div className={styles.orderDetails}>
+                            У вас пока нет откликов, но ваш заказ скоро заметят!
+                        </div>
+
+                        {/* кнопка для удаления заказа*/}
+                        <div className={styles.footer}>
+                            <Button
+                                size="l"
+                            >
+                                Удалить заказ
+                            </Button>
                         </div>
                     </>
                 )}
