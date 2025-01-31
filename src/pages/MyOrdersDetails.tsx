@@ -1,21 +1,40 @@
 import {FC, useEffect, useState} from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { Page } from '@/components/Page';
 import {Button, Headline, Spinner} from '@telegram-apps/telegram-ui';
 import {Order} from "@/models/Order.ts";
-import {getOrderById} from "@/api/Orders.ts";
+import {deleteOrder, getOrderById} from "@/api/Orders.ts";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
 
 import styles from "./MyOrdersDetails.module.css"
 
 
 export const OrderDetailsPage: FC = () => {
+    const navigate = useNavigate();
+
     const { id } = useParams<{ id: string }>();
     const [order, setOrder] = useState<Order | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const initDataRaw = useSignal<string | undefined>(initData.raw);
+
+    const [isDeleted, setIsDeleted] = useState<boolean>(false);
 // Сработало 4.01 в 01:41 без передачи здесь initDataRaw - при этом на бэк он пришел правильный. почему?
+
+    const HandleDeleteOrder = async (id: string) => {
+        try{
+            if (!initDataRaw) {
+                alert('Не удалось удалить заказ. Ошибка авторизации')
+                return
+            }
+            await deleteOrder(id, initDataRaw);
+            navigate("/orders")
+        } catch (error) {
+            alert('Не удалось удалить заказ.')
+        } finally {
+            setIsDeleted(true)
+        }
+    }
 
     useEffect(() => {
         const currentOrder = async () => {
@@ -35,7 +54,7 @@ export const OrderDetailsPage: FC = () => {
             }
         }
         currentOrder();
-    }, [id]);
+    }, [id, initDataRaw]);
 
     return (
         <Page back={true}>
@@ -66,6 +85,8 @@ export const OrderDetailsPage: FC = () => {
                         <div className={styles.footer}>
                             <Button
                                 size="l"
+                                onClick={() => id && HandleDeleteOrder(id)}
+                                disabled={isLoading || !order || isDeleted}
                             >
                                 Удалить заказ
                             </Button>
