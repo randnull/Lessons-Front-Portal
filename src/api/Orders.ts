@@ -1,7 +1,7 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
 // lessonsmy.tech
 // backend.lessonsmy.tech
-const api_link: string = 'https://lessonsmy.tech';
+const api_link: string = 'http://lessonsmy.tech/api';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
