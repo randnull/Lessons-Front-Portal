@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from 'react';
 import { Page } from '@/components/Page';
-import {Badge, Button, Cell, Headline, Placeholder} from '@telegram-apps/telegram-ui';
+import {Badge, Button, Cell, Headline, Placeholder, Spinner} from '@telegram-apps/telegram-ui';
 import styles from './MyOrdersPage.module.css';
 import {useNavigate} from "react-router-dom";
 import {Order} from "@/models/Order.ts";
@@ -55,9 +55,9 @@ export const MyOrdersPage: FC = () => {
                 <Button onClick={HandleAddFunc} mode="filled" size="m"> +</Button>
             </div>
             { IsLoading? (
-                <div>Загружаем заказы...</div>
+                <Spinner className={styles.spinner} size="l"/>
             ): Error? (
-                <div>Ошибка(</div>
+                <div>К сожалению возникла ошибка при загруке страницы. Пожалуйста, попробуйте позже</div>
             ): LoadOrder.length == 0 ? (
                 <div className={styles.noOrders}>
                     <Placeholder header="Вы не создали ни одного заказа">

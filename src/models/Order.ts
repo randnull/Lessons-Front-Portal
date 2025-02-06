@@ -19,3 +19,10 @@ export interface OrderCreate {
     max_price: number;
 }
 
+export interface OrderUpdate {
+    title: string;
+    description: string;
+    tags: string[];
+    min_price: number;
+    max_price: number;
+}

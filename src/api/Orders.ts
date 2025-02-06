@@ -1,7 +1,6 @@
 import {Order, OrderCreate} from "@/models/Order.ts";
-// lessonsmy.tech
-// backend.lessonsmy.tech
-const api_link: string = 'http://lessonsmy.tech/api';
+
+const api_link: string = 'https://lessonsmy.tech/api';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
@@ -86,11 +85,16 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
 
 export const updateOrder = async (id: string, userdata: string, orderdata: OrderCreate): Promise<void> => {
     try {
+        console.log(userdata, orderdata);
         const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
-            method: "PUT",
+            method: "PATCH",
             body: JSON.stringify(orderdata),
             headers: {"token": userdata },
         })
+
+
+        console.log("Response status:", responseOrder.status);
+        console.log("Response headers:", responseOrder.headers);
 
         if (!responseOrder.ok) {
             const error = await responseOrder.json();

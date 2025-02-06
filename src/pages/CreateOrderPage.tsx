@@ -21,7 +21,6 @@ const options: MultiselectOption[] = [
 ];
 
 export const CreateOrderPage: FC = () => {
-    // idk как работать с этим говном, пусть будет так
     const [selectedValues, setSelectedValues] = useState<MultiselectOption[]>([]);
 
     const [tags, setTags] = useState<string[]>([]);

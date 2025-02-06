@@ -1,10 +1,10 @@
 import {FC, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import { Page } from '@/components/Page';
-import {Button, Headline, Spinner} from '@telegram-apps/telegram-ui';
-import {Order} from "@/models/Order.ts";
-import {deleteOrder, getOrderById} from "@/api/Orders.ts";
-import {initData, useSignal} from "@telegram-apps/sdk-react";
+import {Button, Headline, Input, Spinner} from '@telegram-apps/telegram-ui';
+import {Order, OrderUpdate} from "@/models/Order.ts";
+import {deleteOrder, getOrderById, updateOrder} from "@/api/Orders.ts";
+import { initData, useSignal } from "@telegram-apps/sdk-react";
 
 import styles from "./MyOrdersDetails.module.css"
 
@@ -14,28 +14,16 @@ export const OrderDetailsPage: FC = () => {
 
     const { id } = useParams<{ id: string }>();
     const [order, setOrder] = useState<Order | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [editOrder, setEditOrder] = useState<OrderUpdate | null>(null);
     const [error, setError] = useState<string | null>(null);
     const initDataRaw = useSignal<string | undefined>(initData.raw);
 
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isDeleted, setIsDeleted] = useState<boolean>(false);
 // Сработало 4.01 в 01:41 без передачи здесь initDataRaw - при этом на бэк он пришел правильный. почему?
 
-    const HandleDeleteOrder = async (id: string) => {
-        try{
-            if (!initDataRaw) {
-                alert('Не удалось удалить заказ. Ошибка авторизации')
-                return
-            }
-            await deleteOrder(id, initDataRaw);
-            navigate("/orders")
-        } catch (error) {
-            alert('Не удалось удалить заказ.')
-        } finally {
-            setIsDeleted(true)
-        }
-    }
-
+    // загрузка данных
     useEffect(() => {
         const currentOrder = async () => {
             if (id) {
@@ -56,6 +44,67 @@ export const OrderDetailsPage: FC = () => {
         currentOrder();
     }, [id, initDataRaw]);
 
+
+    // удалить заказ
+    const HandleDeleteOrder = async (id: string) => {
+        try{
+            if (!initDataRaw) {
+                alert('Не удалось удалить заказ. Ошибка авторизации')
+                return
+            }
+            await deleteOrder(id, initDataRaw);
+            navigate("/orders")
+        } catch (error) {
+            alert('Не удалось удалить заказ.')
+        } finally {
+            setIsDeleted(true);
+        }
+    }
+
+    // изменить заказ
+    const HandleUpdateModeOrder = async () => {
+        if (order) {
+
+            const editableOrder: OrderUpdate = {
+                title: order.title,
+                description: order.description,
+                tags: order.tags,
+                min_price: order.min_price,
+                max_price: order.max_price
+            };
+
+            setEditOrder(editableOrder);
+            setIsEdit(true);
+        }
+    }
+
+    const handleSaveChanges = async () => {
+        if (!id || !initDataRaw || !editOrder) {
+            setError("Ошибка: данные не загружены");
+            return;
+        }
+
+        try {
+            await updateOrder(id, initDataRaw, editOrder);
+            // !!! вот тут надо придумать как setOrder(editOrder)
+            setIsEdit(false);
+            alert("Заказ успешно обновлен!");
+        } catch (err) {
+            setError("Ошибка при обновлении заказа");
+        }
+    };
+
+    // useEffect(() => {
+    //     if (isEdit) {
+    //         backButton.hide();
+    //         backButton.show();
+    //         return backButton.onClick(() => {
+    //             navigate(`/order/${id}`);
+    //         });
+    //     }
+    //     backButton.hide();
+    // }, [isEdit]);
+
     return (
         <Page back={true}>
             <div className={styles.container}>
@@ -67,14 +116,42 @@ export const OrderDetailsPage: FC = () => {
                     <Spinner className={styles.spinner} size="l"/>
                 ): !order ? (
                     <Headline weight="1">Заказа не существует</Headline>
+                ) : isEdit ? (
+                    <Page back={true}>
+                        <Headline weight="1">Редактирование заказа</Headline>
+                            <Headline weight="2">Название</Headline>
+                            <Input
+                                header="Название"
+                                value={editOrder?.title || ""}
+                                onChange={(e) => setEditOrder({...editOrder!, title: e.target.value})}/>
+                            <Headline weight="2">Описание</Headline>
+                            <Input
+                                header="Описание"
+                                value={editOrder?.description || ""}
+                                onChange={(e) => setEditOrder({...editOrder!, description: e.target.value})}/>
+                            {/*переделать или остальное переделать */}
+                            <div className={styles.footer}>
+                                <Button size="l" onClick={handleSaveChanges}>
+                                    Сохранить
+                                </Button>
+                            </div>
+                    </Page>
                 ) : (
                     <>
-                        <Headline weight="2">Детали заказа # {order.id.slice(0,8)}</Headline>
+                        <div className={styles.orderDetailsHeader}>
+                            <Headline weight="2">Детали заказа # {order.id.slice(0,8)}</Headline>
+                            <Button
+                                size="l"
+                                className={styles.editButton}
+                                onClick={() => HandleUpdateModeOrder()}>
+                                ✏️
+                            </Button>
+                        </div>
                         <div className={styles.orderDetails}>
                             <Headline weight="1">{order.title}</Headline>
                             <p>Ставка: {order.min_price} - {order.max_price}</p>
                             <p>Описание: {order.description}</p>
-                            <p>Статус: </p>
+                            <p>Статус: {order.status}</p>
                         </div>
                         <Headline weight="2" className={styles.calls}>Отклики</Headline>
                         <div className={styles.orderDetails}>
@@ -82,6 +159,7 @@ export const OrderDetailsPage: FC = () => {
                         </div>
 
                         {/* кнопка для удаления заказа*/}
+                        {/* добавить подтвеждение */ }
                         <div className={styles.footer}>
                             <Button
                                 size="l"

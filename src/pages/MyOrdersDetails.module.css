@@ -12,6 +12,9 @@
 .error {
     color: var(--tgui--text_color);
 }
+.delete {
+    color: red;
+}
 
 .spinner {
     /*border: 1px dashed #9747FF;*/
@@ -22,6 +25,22 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.orderDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.editButton {
+    background: transparent; /* Убираем фон */
+    border: none; /* Убираем обводку */
+    font-size: 1.5rem; /* Размер иконки */
+    cursor: pointer; /* Курсор как указатель */
+    color: inherit; /* Наследуем цвет от родителя (т.е. от названия заказа) */
+    padding: 0; /* Убираем внутренние отступы */
 }
 
 .footer {

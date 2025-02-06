@@ -29,6 +29,19 @@
     color: var(--tgui--bg_color);
 }
 
+
+.spinner {
+    /*border: 1px dashed #9747FF;*/
+    /*borderRadius: 5px;*/
+    /*padding: 20px;*/
+    /*width: 400px;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
 .noOrders img {
     width: 150px; /* Установить ширину изображения */
     height: auto; /* Автоматически подстраивать высоту */
