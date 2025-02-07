@@ -86,7 +86,29 @@ export const OrderDetailsPage: FC = () => {
 
         try {
             await updateOrder(id, initDataRaw, editOrder);
+
+            if (order?.description) {
+                order.description = editOrder.description
+            }
+
+            if (order?.title) {
+                order.title = editOrder.title
+            }
+
+            // const update_order: Order = {
+            //     id: order?.id || "",
+            //     student_id: order?.student_id || "",
+            //     title: order?.title || "",
+            //     description: order?.description || "",
+            //     tags: order?.tags || [],
+            //     min_price: order?.min_price || 0,
+            //     max_price: order?.max_price || 0,
+            //     status: order?.status || "",
+            //     created_at: order?.created_at || "",
+            //     updated_at: order?.updated_at || ""
+            // }
             // !!! вот тут надо придумать как setOrder(editOrder)
+            setOrder(update_order)
             setIsEdit(false);
             alert("Заказ успешно обновлен!");
         } catch (err) {
