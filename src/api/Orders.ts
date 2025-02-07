@@ -1,4 +1,4 @@
-import {Order, OrderCreate} from "@/models/Order.ts";
+import {Order, OrderCreate, OrderUpdate} from "@/models/Order.ts";
 
 const api_link: string = 'https://lessonsmy.tech/api';
 
@@ -83,15 +83,16 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
     }
 }
 
-export const updateOrder = async (id: string, userdata: string, orderdata: OrderCreate): Promise<void> => {
+export const updateOrder = async (id: string, userdata: string, orderdata: OrderUpdate): Promise<void> => {
     try {
-        console.log(userdata, orderdata);
-        const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
-            method: "PATCH",
-            body: JSON.stringify(orderdata),
-            headers: {"token": userdata },
-        })
+        console.log(`${api_link}/orders/id/${id}`)
+        console.log("order-data:", userdata, JSON.stringify(orderdata));
 
+        const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(orderdata),
+            headers: {"content-type": 'application/json', "token": userdata },
+        })
 
         console.log("Response status:", responseOrder.status);
         console.log("Response headers:", responseOrder.headers);
