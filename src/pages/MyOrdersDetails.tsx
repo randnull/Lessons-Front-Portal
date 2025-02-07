@@ -94,7 +94,7 @@ export const OrderDetailsPage: FC = () => {
             if (order?.title) {
                 order.title = editOrder.title
             }
-
+            setOrder(order)
             // const update_order: Order = {
             //     id: order?.id || "",
             //     student_id: order?.student_id || "",
