@@ -108,7 +108,7 @@ export const OrderDetailsPage: FC = () => {
             //     updated_at: order?.updated_at || ""
             // }
             // !!! вот тут надо придумать как setOrder(editOrder)
-            setOrder(update_order)
+            // setOrder(update_order)
             setIsEdit(false);
             alert("Заказ успешно обновлен!");
         } catch (err) {
