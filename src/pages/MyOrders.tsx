@@ -73,7 +73,7 @@ export const MyOrdersPage: FC = () => {
                     {LoadOrder.map((order, index) => (
                         <Cell
                             key={index}
-                            after={<Badge type="number">0</Badge>}
+                            after={<Badge type="number">{order.response_count}</Badge>}
                             // before={<Avatar size={48} />}
                             description={order.description}
                             // subhead={order.}

@@ -1,9 +1,9 @@
-import {FC, useEffect, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import {FC, useEffect, useState } from 'react';
+import {useNavigate, useParams } from 'react-router-dom';
 import { Page } from '@/components/Page';
-import {Button, Headline, Input, Spinner} from '@telegram-apps/telegram-ui';
-import {Order, OrderUpdate} from "@/models/Order.ts";
-import {deleteOrder, getOrderById, updateOrder} from "@/api/Orders.ts";
+import { Button, Cell, Headline, Input, Spinner } from '@telegram-apps/telegram-ui';
+import { OrderDetails, OrderUpdate } from "@/models/Order.ts";
+import {deleteOrder, getOrderById, updateOrder } from "@/api/Orders.ts";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
 
 import styles from "./MyOrdersDetails.module.css"
@@ -13,7 +13,8 @@ export const OrderDetailsPage: FC = () => {
     const navigate = useNavigate();
 
     const { id } = useParams<{ id: string }>();
-    const [order, setOrder] = useState<Order | null>(null);
+    const [order, setOrder] = useState<OrderDetails | null>(null);
+    // const [responses, setResponses] = useState<Order | null>(null);
     const [editOrder, setEditOrder] = useState<OrderUpdate | null>(null);
     const [error, setError] = useState<string | null>(null);
     const initDataRaw = useSignal<string | undefined>(initData.raw);
@@ -43,7 +44,6 @@ export const OrderDetailsPage: FC = () => {
         }
         currentOrder();
     }, [id, initDataRaw]);
-
 
     // удалить заказ
     const HandleDeleteOrder = async (id: string) => {
@@ -116,6 +116,10 @@ export const OrderDetailsPage: FC = () => {
         }
     };
 
+
+    const HandleLinkFunc = (id: number) => {
+        navigate(`/tutor/${id}`);
+    }
     // useEffect(() => {
     //     if (isEdit) {
     //         backButton.hide();
@@ -177,7 +181,18 @@ export const OrderDetailsPage: FC = () => {
                         </div>
                         <Headline weight="2" className={styles.calls}>Отклики</Headline>
                         <div className={styles.orderDetails}>
-                            У вас пока нет откликов, но ваш заказ скоро заметят!
+                            { !order || order.response_count == 0 ? (
+                                <Headline weight="3">У вас пока нет откликов, но ваш заказ скоро заметят!</Headline>
+                            ) : (
+                                order.responses.map((response, index) => (
+                                    <Cell
+                                        key={index}
+                                        onClick={() => HandleLinkFunc(response.tutor_id)}
+                                    >
+                                        {response.name}
+                                    </Cell>
+                                ))
+                            )}
                         </div>
 
                         {/* кнопка для удаления заказа*/}

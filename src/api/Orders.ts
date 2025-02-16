@@ -1,4 +1,4 @@
-import {Order, OrderCreate, OrderUpdate} from "@/models/Order.ts";
+import {Order, OrderCreate, OrderDetails, OrderUpdate} from "@/models/Order.ts";
 
 const api_link: string = 'https://lessonsmy.tech/api';
 
@@ -26,7 +26,7 @@ export const getOrders = async (userdata: string): Promise<Order[]> => {
     }
 }
 
-export const getOrderById = async (id: string, userdata: string): Promise<Order | null> => {
+export const getOrderById = async (id: string, userdata: string): Promise<OrderDetails | null> => {
     try {
         const ResponseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "GET",
