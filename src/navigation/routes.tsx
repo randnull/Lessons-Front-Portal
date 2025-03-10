@@ -6,6 +6,7 @@ import { MyOrdersPage } from "@/pages/MyOrders.tsx";
 import {CreateOrderPage} from "@/pages/CreateOrderPage.tsx";
 import { OrderDetailsPage } from "@/pages/MyOrdersDetails";
 import {TutorInfoPage} from "@/pages/TutorPage.tsx";
+import {TutorsPage} from "@/pages/Tutors.tsx";
 
 interface Route {
   path: string;
@@ -21,4 +22,5 @@ export const routes: Route[] = [
   { path: '/create-order', Component: CreateOrderPage },
   { path: '/order/:id', Component: OrderDetailsPage },
   { path: '/tutor/:id', Component: TutorInfoPage },
+  { path: '/tutors', Component: TutorsPage },
 ];
