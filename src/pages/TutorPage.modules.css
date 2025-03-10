@@ -1,0 +1,28 @@
+.spinner {
+    /*border: 1px dashed #9747FF;*/
+    /*borderRadius: 5px;*/
+    /*padding: 20px;*/
+    /*width: 400px;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    padding: 20px;
+    background-color: var(--tgui--secondary_bg_color);
+    color: var(--tgui--text_color);
+    font-family: 'Arial', sans-serif;
+    max-width: 600px;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+    color: var(--tgui--text_color);
+}
+.delete {
+    color: red;
+}

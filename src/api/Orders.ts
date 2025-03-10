@@ -34,7 +34,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<OrderD
         });
 
         console.log("Response status:", ResponseOrder.status);
-        console.log("Response headers:", ResponseOrder.headers);
+        console.log("Response headers:", ResponseOrder.json());
 
         if (!ResponseOrder.ok) {
             throw new Error('Не удалось получить заказ');
