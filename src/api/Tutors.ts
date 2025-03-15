@@ -10,7 +10,7 @@ export const getTutors = async (userdata: string): Promise<Tutor[]> => {
         }
         const ResponseOrders = await fetch(`${api_link}/users`, {
             method: "GET",
-            headers: {"token": AuthToken },
+            headers: {"Authorization": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);
@@ -39,7 +39,7 @@ export const getTutorById = async (id: string, userdata: string): Promise<Tutor 
 
         const ResponseOrders = await fetch(`${api_link}/users/id/${id}`, {
             method: "GET",
-            headers: {"token": AuthToken },
+            headers: {"Authorization": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);

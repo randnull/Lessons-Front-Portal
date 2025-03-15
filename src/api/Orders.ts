@@ -10,7 +10,7 @@ export const getOrders = async (userdata: string): Promise<Order[]> => {
         }
         const ResponseOrders = await fetch(`${api_link}/orders`, {
             method: "GET",
-            headers: {"token": AuthToken },
+            headers: {"Authorization": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);
@@ -38,7 +38,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<OrderD
         }
         const ResponseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "GET",
-            headers: {"token": AuthToken },
+            headers: {"Authorization": AuthToken },
         });
 
         console.log("Response status:", ResponseOrder.status);
@@ -62,7 +62,7 @@ export const createOrder = async (orderdata: OrderCreate, userdata: string): Pro
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
             body: JSON.stringify(orderdata),
-            headers: {"content-type": 'application/json', "token": AuthToken},
+            headers: {"content-type": 'application/json', "Authorization": AuthToken},
         })
 
         if (!responseOrder.ok) {
@@ -85,7 +85,7 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
         }
         const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "DELETE",
-            headers: {"token": AuthToken },
+            headers: {"Authorization": AuthToken },
         })
 
         if (!responseOrder.ok) {
@@ -108,7 +108,7 @@ export const updateOrder = async (id: string, userdata: string, orderdata: Order
         const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "PUT",
             body: JSON.stringify(orderdata),
-            headers: {"content-type": 'application/json', "token": AuthToken },
+            headers: {"content-type": 'application/json', "Authorization": AuthToken },
         })
 
         console.log("Response status:", responseOrder.status);
