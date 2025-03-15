@@ -2,7 +2,7 @@ import {FC, useEffect, useState } from 'react';
 import {useNavigate, useParams } from 'react-router-dom';
 import { Page } from '@/components/Page';
 import { Button, Cell, Headline, Input, Spinner } from '@telegram-apps/telegram-ui';
-import { OrderDetails, OrderUpdate } from "@/models/Order.ts";
+import {OrderDetails, OrderUpdate, Responses} from "@/models/Order.ts";
 import {deleteOrder, getOrderById, updateOrder } from "@/api/Orders.ts";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
 
@@ -117,8 +117,8 @@ export const OrderDetailsPage: FC = () => {
     };
 
 
-    const HandleLinkFunc = (id: number) => {
-        navigate(`/tutor/${id}`);
+    const HandleLinkFunc = (data: Responses) => {
+        navigate(`/responses`, { state: data });
     }
     // useEffect(() => {
     //     if (isEdit) {
@@ -187,7 +187,7 @@ export const OrderDetailsPage: FC = () => {
                                 order.responses.map((response, index) => (
                                     <Cell
                                         key={index}
-                                        onClick={() => HandleLinkFunc(response.tutor_id)}
+                                        onClick={() => HandleLinkFunc(response)}
                                     >
                                         {response.name}
                                     </Cell>

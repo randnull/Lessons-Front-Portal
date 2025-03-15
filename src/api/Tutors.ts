@@ -4,9 +4,13 @@ const api_link: string = 'https://lessonsmy.tech/api';
 
 export const getTutors = async (userdata: string): Promise<Tutor[]> => {
     try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return []
+        }
         const ResponseOrders = await fetch(`${api_link}/users`, {
             method: "GET",
-            headers: {"token": userdata },
+            headers: {"token": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);
@@ -28,9 +32,14 @@ export const getTutors = async (userdata: string): Promise<Tutor[]> => {
 
 export const getTutorById = async (id: string, userdata: string): Promise<Tutor | null> => {
     try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return null
+        }
+
         const ResponseOrders = await fetch(`${api_link}/users/id/${id}`, {
             method: "GET",
-            headers: {"token": userdata },
+            headers: {"token": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);

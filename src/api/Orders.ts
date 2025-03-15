@@ -4,9 +4,13 @@ const api_link: string = 'https://lessonsmy.tech/api';
 
 export const getOrders = async (userdata: string): Promise<Order[]> => {
     try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return [] // navigate auth page
+        }
         const ResponseOrders = await fetch(`${api_link}/orders`, {
             method: "GET",
-            headers: {"token": userdata },
+            headers: {"token": AuthToken },
         });
 
         console.log("Response status:", ResponseOrders.status);
@@ -28,9 +32,13 @@ export const getOrders = async (userdata: string): Promise<Order[]> => {
 
 export const getOrderById = async (id: string, userdata: string): Promise<OrderDetails | null> => {
     try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return null // navigate auth page
+        }
         const ResponseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "GET",
-            headers: {"token": userdata },
+            headers: {"token": AuthToken },
         });
 
         console.log("Response status:", ResponseOrder.status);
@@ -47,11 +55,14 @@ export const getOrderById = async (id: string, userdata: string): Promise<OrderD
 
 export const createOrder = async (orderdata: OrderCreate, userdata: string): Promise<string | null> => {
     try {
-        console.log(userdata);
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return null // navigate auth page
+        }
         const responseOrder = await fetch(`${api_link}/orders`, {
             method: 'POST',
             body: JSON.stringify(orderdata),
-            headers: {"content-type": 'application/json', "token": userdata},
+            headers: {"content-type": 'application/json', "token": AuthToken},
         })
 
         if (!responseOrder.ok) {
@@ -68,9 +79,13 @@ export const createOrder = async (orderdata: OrderCreate, userdata: string): Pro
 
 export const deleteOrder = async (id: string, userdata: string): Promise<void> => {
     try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return
+        }
         const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "DELETE",
-            headers: {"token": userdata },
+            headers: {"token": AuthToken },
         })
 
         if (!responseOrder.ok) {
@@ -85,13 +100,15 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
 
 export const updateOrder = async (id: string, userdata: string, orderdata: OrderUpdate): Promise<void> => {
     try {
-        console.log(`${api_link}/orders/id/${id}`)
-        console.log("order-data:", userdata, JSON.stringify(orderdata));
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return
+        }
 
         const responseOrder = await fetch(`${api_link}/orders/id/${id}`, {
             method: "PUT",
             body: JSON.stringify(orderdata),
-            headers: {"content-type": 'application/json', "token": userdata },
+            headers: {"content-type": 'application/json', "token": AuthToken },
         })
 
         console.log("Response status:", responseOrder.status);
