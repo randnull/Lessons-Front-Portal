@@ -24,5 +24,5 @@ export const routes: Route[] = [
   { path: '/order/:id', Component: OrderDetailsPage },
   { path: '/tutor/:id', Component: TutorInfoPage },
   { path: '/tutors', Component: TutorsPage },
-  { path: '/responses', Component: ResponsePage },
+  { path: '/responses/:id', Component: ResponsePage },
 ];

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { initData, useSignal } from '@telegram-apps/sdk-react';
-import {ValidateInitData} from "@/api/auth.tsx";
+import {ValidateInitData} from "@/api/Auth.ts";
 // import { ValidateInitData } from '@/api/auth';
 
 export const StartPage: FC = () => {
@@ -16,7 +16,7 @@ export const StartPage: FC = () => {
                 return;
             }
             try {
-                navigate('/orders');
+                // navigate('/orders');
                 // Класть init data куда-то?
                 const request_status = await ValidateInitData(initDataRaw);
                 if (request_status) {

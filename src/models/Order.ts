@@ -19,6 +19,16 @@ export interface Responses {
     created_at: string;
 }
 
+export interface CurrentResponse {
+    id: string;
+    order_id: string;
+    tutor_id: number;
+    tutor_username: string;
+    name: string;
+    created_at: string;
+}
+
+
 export interface OrderDetails {
     id: string;
     student_id: string;

@@ -2,6 +2,7 @@ const API_BASE = 'https://lessonsmy.tech';
 
 export const ValidateInitData = async (initData: string): Promise<boolean> => {
     try {
+        console.log('initData', initData);
         const response = await fetch(`${API_BASE}/auth/init-data`, {
             method: "POST",
             headers: {
@@ -21,7 +22,7 @@ export const ValidateInitData = async (initData: string): Promise<boolean> => {
 
         return false;
     } catch (error) {
-        console.error(error);
+        console.error('Hello', error);
         return false; //
         // if (axios.isAxiosError(error)) {
         //     console.error("Axios error:", error.response?.data || error.message);
