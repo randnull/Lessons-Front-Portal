@@ -5,8 +5,9 @@ import {Headline, Spinner} from "@telegram-apps/telegram-ui";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
 import {Tutor} from "@/models/Tutor.ts";
 import {getTutorById} from "@/api/Tutors.ts";
+import styles from "@/pages/ResponsePage.module.css";
 
-// import styles from "./TutorPage.modules.css"
+// import styles from "./TutorPage.module.css"
 
 
 export const TutorInfoPage: FC = () => {
@@ -41,15 +42,15 @@ export const TutorInfoPage: FC = () => {
     // className={styles.container}
     return (
         <Page back={true}>
-            <div>
+            <div className={styles.container}>
                 { error ? (
                     <div>
                         Извините, возникла ошибка при получении этого заказа: {error}
                     </div>
                 ): isLoading ? (
-                    <Spinner size="l"/>
+                    <Spinner className={styles.spinner} size="l"/>
                 ): !tutor ? (
-                    <Headline weight="1">Заказа не существует</Headline>
+                    <Headline weight="1">Репетитор не найден</Headline>
                 ) : (
                     <>
                         <div>

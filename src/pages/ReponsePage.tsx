@@ -62,6 +62,10 @@ export const ResponsePage: FC = () => {
 
                 if (confirm("Вы хотите выбрать этого репетитора?")) {
                     alert("Репетитор выбран!")
+                    secondaryButton.setParams({
+                        isLoaderVisible: false,
+                        isEnabled: true
+                    });
                     navigate(`/order/${currentResponse.order_id}`);
                 } else {
                     secondaryButton.setParams({
