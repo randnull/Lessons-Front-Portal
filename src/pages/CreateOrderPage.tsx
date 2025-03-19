@@ -76,7 +76,7 @@ export const CreateOrderPage: FC = () => {
         }
         if (mainButton.setParams.isAvailable()) {
             mainButton.setParams({
-                text: 'Submit',
+                text: 'Создать',
                 // убрать в отдельную проверку!
                 // нужен ли ref?
                 isEnabled: true,//titleRef.current.trim() !== '' && descriptionRef.current.trim() !== '' && tagsRef.current.length > 0, // прикол
