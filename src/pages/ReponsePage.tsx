@@ -66,7 +66,7 @@ export const ResponsePage: FC = () => {
                         isLoaderVisible: false,
                         isEnabled: true
                     });
-                    navigate(`/order/${currentResponse.order_id}`);
+                    navigate(`/orders`);
                 } else {
                     secondaryButton.setParams({
                         isLoaderVisible: false,
