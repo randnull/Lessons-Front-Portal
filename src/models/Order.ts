@@ -16,6 +16,7 @@ export interface Responses {
     id: string;
     tutor_id: number;
     name: string;
+    is_final: boolean;
     created_at: string;
 }
 

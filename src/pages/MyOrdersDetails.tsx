@@ -55,11 +55,10 @@ export const OrderDetailsPage: FC = () => {
             if (confirm("Восстановить заказ будет невозможно. Вы хотите удалить заказ?")) {
                 await deleteOrder(id, initDataRaw);
                 navigate("/orders")
+                setIsDeleted(true);
             }
         } catch (error) {
             alert('Не удалось удалить заказ.')
-        } finally {
-            setIsDeleted(true);
         }
     }
 
@@ -190,6 +189,7 @@ export const OrderDetailsPage: FC = () => {
                                     <Cell
                                         key={index}
                                         onClick={() => HandleLinkFunc(response.id)}
+                                        className={response.is_final ? styles.finalResponse : ""}
                                     >
                                         {response.name}
                                     </Cell>
