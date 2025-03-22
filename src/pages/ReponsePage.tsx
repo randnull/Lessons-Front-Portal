@@ -7,6 +7,7 @@ import {initData, useSignal, openTelegramLink, mainButton, secondaryButton} from
 import {getResponseById} from "@/api/Responses.ts";
 
 import styles from "./ResponsePage.module.css"
+import {selectTutorForOrder} from "@/api/Orders.ts";
 
 
 export const ResponsePage: FC = () => {
@@ -61,12 +62,17 @@ export const ResponsePage: FC = () => {
                 });
 
                 if (confirm("Вы хотите выбрать этого репетитора?")) {
-                    alert("Репетитор выбран!")
+                    if (currentResponse?.id && initDataRaw) {
+                        await selectTutorForOrder(currentResponse.id, initDataRaw);
+                        alert("Репетитор выбран!")
+                        navigate(`/orders`);
+                    } else {
+                        alert("Возникла ошибка при выборе, попробуйте позже.")
+                    }
                     secondaryButton.setParams({
                         isLoaderVisible: false,
                         isEnabled: true
                     });
-                    navigate(`/orders`);
                 } else {
                     secondaryButton.setParams({
                         isLoaderVisible: false,

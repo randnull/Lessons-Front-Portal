@@ -52,8 +52,10 @@ export const OrderDetailsPage: FC = () => {
                 alert('Не удалось удалить заказ. Ошибка авторизации')
                 return
             }
-            await deleteOrder(id, initDataRaw);
-            navigate("/orders")
+            if (confirm("Восстановить заказ будет невозможно. Вы хотите удалить заказ?")) {
+                await deleteOrder(id, initDataRaw);
+                navigate("/orders")
+            }
         } catch (error) {
             alert('Не удалось удалить заказ.')
         } finally {
