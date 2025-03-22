@@ -132,7 +132,7 @@ export const selectTutorForOrder = async (responseId: string, userdata: string):
         }
 
         const responseOrder = await fetch(`${api_link}/orders/select/id/${responseId}`, {
-            method: "PUT",
+            method: "POST",
             headers: {"content-type": 'application/json', "Authorization": AuthToken },
         })
 
