@@ -26,6 +26,8 @@ export interface CurrentResponse {
     tutor_id: number;
     tutor_username: string;
     name: string;
+    greetings: string;
+    is_final: boolean;
     created_at: string;
 }
 

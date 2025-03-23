@@ -194,11 +194,19 @@ export const ResponsePage: FC = () => {
                 ) : (
                     <>
                         <div className={styles.responseDetailsHeader}>
-                            <Headline weight="2">Отлик # {currentResponse.id.slice(0,8)}</Headline>
+                            <Headline weight="2">Отлик # {currentResponse.id.slice(0, 8)}</Headline>
                         </div>
                         <div className={styles.responseDetails}>
                             <Headline weight="1">{currentResponse.name}</Headline>
                             <p className={styles.responseTime}>Время отлика: {currentResponse.created_at}</p>
+                        </div>
+                        <div className={styles.responseMessage}>
+                            <Headline weight="1">Сообщение от репетитора:</Headline>
+                            <p>
+                                {currentResponse.greetings
+                                    ? currentResponse.greetings
+                                    : "Репетитор не оставил сообщения"}
+                            </p>
                         </div>
                     </>
                 )}
