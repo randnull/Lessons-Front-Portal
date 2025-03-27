@@ -164,10 +164,13 @@ export const CreateOrderPage: FC = () => {
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
-                    Задайте теги для заказа
+                    Класс/Курс
+                </Headline>
+
+                <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
+                    Предметы
                 </Headline>
                 <Multiselect
-                    creatable="Задать новый тег"
                     closeDropdownAfterSelect={true}
                     options={options}
                     value={selectedValues}
