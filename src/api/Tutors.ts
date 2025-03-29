@@ -1,4 +1,4 @@
-import {Tutor, TutorPagination} from "@/models/Tutor.ts";
+import {TutorDetails, TutorPagination} from "@/models/Tutor.ts";
 
 const api_link: string = 'https://lessonsmy.tech/api';
 
@@ -35,14 +35,14 @@ export const getTutors = async (userdata: string, limit: number, page: number): 
     }
 }
 
-export const getTutorById = async (id: string, userdata: string): Promise<Tutor | null> => {
+export const getTutorById = async (id: string, userdata: string): Promise<TutorDetails | null> => {
     try {
         const AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return null
         }
 
-        const ResponseOrders = await fetch(`${api_link}/users/id/${id}`, {
+        const ResponseOrders = await fetch(`${api_link}/users/tutor/id/${id}`, {
             method: "GET",
             headers: {"Authorization": AuthToken },
         });

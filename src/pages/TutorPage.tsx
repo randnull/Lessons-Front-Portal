@@ -3,7 +3,7 @@ import { Page } from '@/components/Page';
 import {useParams} from "react-router-dom";
 import {Headline, Spinner} from "@telegram-apps/telegram-ui";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
-import {Tutor} from "@/models/Tutor.ts";
+import {TutorDetails} from "@/models/Tutor.ts";
 import {getTutorById} from "@/api/Tutors.ts";
 import styles from "@/pages/ResponsePage.module.css";
 
@@ -17,7 +17,7 @@ export const TutorInfoPage: FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const [tutor, setTutor] = useState<Tutor | null>(null);
+    const [tutor, setTutor] = useState<TutorDetails | null>(null);
 
     useEffect(() => {
         const currentTutor = async () => {
@@ -58,7 +58,9 @@ export const TutorInfoPage: FC = () => {
                         </div>
                         <div>
                             <Headline weight="1">{tutor.name}</Headline>
+                            <p>О себе: {tutor.bio} </p>
                             <p>Id: {tutor.id} </p>
+
                         </div>
                     </>
                 )}
