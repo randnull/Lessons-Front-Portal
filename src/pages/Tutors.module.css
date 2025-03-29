@@ -1,0 +1,38 @@
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0;
+    position: relative;
+}
+
+.orderList {
+    margin-top: 20px;
+}
+
+.Title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
+
+.noOrders {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: var(--tgui--bg_color);
+}
+
+.spinner {
+    /*border: 1px dashed #9747FF;*/
+    /*borderRadius: 5px;*/
+    /*padding: 20px;*/
+    /*width: 400px;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

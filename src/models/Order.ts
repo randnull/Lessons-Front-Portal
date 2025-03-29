@@ -50,6 +50,7 @@ export interface OrderDetails {
 export interface OrderCreate {
     title: string;
     description: string;
+    grade: string;
     tags: string[];
     min_price: number;
     max_price: number;
@@ -62,3 +63,10 @@ export interface OrderUpdate {
     min_price: number;
     max_price: number;
 }
+
+
+export interface OrderPagination {
+    orders: Order[];
+    pages: number;
+}
+

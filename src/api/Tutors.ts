@@ -1,14 +1,14 @@
-import {Tutor} from "@/models/Tutor.ts";
+import {Tutor, TutorPagination} from "@/models/Tutor.ts";
 
 const api_link: string = 'https://lessonsmy.tech/api';
 
-export const getTutors = async (userdata: string): Promise<Tutor[]> => {
+export const getTutors = async (userdata: string, limit: number, page: number): Promise<TutorPagination | null> => {
     try {
         const AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
-            return []
+            return null
         }
-        const ResponseOrders = await fetch(`${api_link}/users`, {
+        const ResponseOrders = await fetch(`${api_link}/users/pagination?size=${limit}&page=${page}`, {
             method: "GET",
             headers: {"Authorization": AuthToken },
         });
@@ -21,12 +21,17 @@ export const getTutors = async (userdata: string): Promise<Tutor[]> => {
             throw new Error(errorText || 'Не удалось загрузить заказы');
         }
         const data = await ResponseOrders.json();
+
+        const tutorData: TutorPagination = {
+            tutors: data.User || [],
+            pagesCount: data.Pages || 0,
+        };
         console.log("Сохраняем заказы в состояние:", data);
         console.warn(data)
-        return data || [];
+        return tutorData;
     } catch (error) {
         console.error(error);
-        return [] //
+        return null
     }
 }
 

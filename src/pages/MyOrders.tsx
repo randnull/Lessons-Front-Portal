@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from 'react';
 import { Page } from '@/components/Page';
-import {Badge, Button, Cell, Headline, Placeholder, Spinner, Tabbar} from '@telegram-apps/telegram-ui';
+import {Badge, Button, Cell, Headline, Pagination, Placeholder, Spinner, Tabbar} from '@telegram-apps/telegram-ui';
 import styles from './MyOrdersPage.module.css';
 import {useNavigate} from "react-router-dom";
 import {Order} from "@/models/Order.ts";
@@ -16,7 +16,8 @@ export const MyOrdersPage: FC = () => {
     const [Error, SetError] = useState<string | null>(null);
     const [LoadOrder, SetNeworders] = useState<Order[]>([]);
     const [currentTabId, setCurrentTab] = useState<string>("orders");
-
+    const [page, setPage] = useState(1);
+    const [maxPage, setMaxPage] = useState(1);
     const initDataRaw = useSignal<string | undefined>(initData.raw);
 
     const tabs = [
@@ -39,19 +40,26 @@ export const MyOrdersPage: FC = () => {
                     SetError("Нет токена");
                     return
                 }
-                const data = await getOrders(initDataRaw);
+                const data = await getOrders(initDataRaw, 5, page);
                 console.log("Сохраняем заказы в состояние MyOrders:", data);
-                SetNeworders(data);
+                if (data == null) {
+                    SetNeworders([])
+                    setMaxPage(0)
+                } else {
+                    SetNeworders(data.orders);
+                    setMaxPage(data.pages)
+                }
             } catch (err) {
                 console.log(err);
                 SetError("Не получили заказы");
+                alert(err)
             } finally {
                 SetIsLoading(false);
             }
         };
 
         LoadOrders();
-    }, []); // [initDataRaw]
+    }, [page]); // [initDataRaw]
 
     const HandleAddFunc = () => {
         navigate("/create-order");
@@ -60,6 +68,10 @@ export const MyOrdersPage: FC = () => {
     const HandleLinkFunc = (id: string) => {
         navigate(`/order/${id}`);
     }
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    };
 
     return (
         <Page back={false}>
@@ -84,6 +96,7 @@ export const MyOrdersPage: FC = () => {
                     </Placeholder>
                 </div>
             ) : (
+                <>
                 <div className={styles.orderList}>
                     {LoadOrder.map((order, index) => (
                         <Cell
@@ -100,6 +113,13 @@ export const MyOrdersPage: FC = () => {
                         </Cell>
                     ))}
                 </div>
+                <div>
+                     <Pagination className={styles.paginationContainer}
+                        count={maxPage}
+                        page={page}
+                        onChange={(_, newPage) => handlePageChange(newPage)} />
+                </div>
+                </>
             )}
             <Tabbar>
                 {tabs.map(({ id, text, Icon }) => (

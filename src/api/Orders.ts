@@ -1,14 +1,14 @@
-import {Order, OrderCreate, OrderDetails, OrderUpdate} from "@/models/Order.ts";
+import {OrderCreate, OrderDetails, OrderPagination, OrderUpdate} from "@/models/Order.ts";
 
 const api_link: string = 'https://lessonsmy.tech/api';
 
-export const getOrders = async (userdata: string): Promise<Order[]> => {
+export const getOrders = async (userdata: string, limit: number, page: number): Promise<OrderPagination | null> => {
     try {
         const AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
-            return [] // navigate auth page
+            return null // navigate auth page
         }
-        const ResponseOrders = await fetch(`${api_link}/orders`, {
+        const ResponseOrders = await fetch(`${api_link}/orders/pagination/student?size=${limit}&page=${page}`, {
             method: "GET",
             headers: {"Authorization": AuthToken },
         });
@@ -21,12 +21,18 @@ export const getOrders = async (userdata: string): Promise<Order[]> => {
             throw new Error(errorText || 'Не удалось загрузить заказы');
         }
         const data = await ResponseOrders.json();
+
+        const ordersData: OrderPagination = {
+            orders: data.Orders || [],
+            pages: data.Pages || 0,
+        }
+
         console.log("Сохраняем заказы в состояние:", data);
         console.warn(data)
-        return data || [];
+        return ordersData;
     } catch (error) {
         console.error(error);
-        return [] //
+        return null //
     }
 }
 

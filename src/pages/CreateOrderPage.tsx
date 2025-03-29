@@ -25,6 +25,7 @@ export const CreateOrderPage: FC = () => {
 
     const [tags, setTags] = useState<string[]>([]);
     const [title, setTitle] = useState<string>('');
+    // const [grade, setGrade] = useState<number>(0);
     const [description, setDescription] = useState<string>('');
     const [minPrice, setMinPrice] = useState<number>(0)
     const [maxPrice, setMaxPrice] = useState<number>(1000)
@@ -33,6 +34,7 @@ export const CreateOrderPage: FC = () => {
 
     const titleRef = useRef(title);
     const descriptionRef = useRef(description);
+    // const gradeRef = useRef(grade);
     const tagsRef = useRef(tags);
     const minPriceRef = useRef(minPrice);
     const maxPriceRef = useRef(maxPrice);
@@ -98,6 +100,8 @@ export const CreateOrderPage: FC = () => {
             const orderData: OrderCreate = {
                 title: titleRef.current,
                 description: descriptionRef.current,
+                // grade: gradeRef.current,
+                grade: "1 класс",
                 tags: tagsRef.current,
                 min_price: minPriceRef.current,
                 max_price: maxPriceRef.current
