@@ -48,6 +48,7 @@ export interface OrderDetails {
 }
 
 export interface OrderCreate {
+    name: string;
     title: string;
     description: string;
     grade: string;

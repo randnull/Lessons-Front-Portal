@@ -6,9 +6,8 @@ import {useNavigate} from "react-router-dom";
 import {Order} from "@/models/Order.ts";
 import {getOrders} from "@/api/Orders.ts";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
-import {Icon28Archive} from "@telegram-apps/telegram-ui/dist/icons/28/archive";
-import {Icon32ProfileColoredSquare} from "@telegram-apps/telegram-ui/dist/icons/32/profile_colored_square";
-
+import UserIcon from "@/icons/user.tsx";
+import OrdersIcon from "@/icons/orders.tsx";
 
 export const MyOrdersPage: FC = () => {
     const navigate = useNavigate();
@@ -23,13 +22,13 @@ export const MyOrdersPage: FC = () => {
     const tabs = [
         {
             id: "tutors",
-            text: "Tutors",
-            Icon: Icon32ProfileColoredSquare,
+            text: "Репетиторы",
+            Icon: UserIcon,
         },
         {
             id: "orders",
-            text: "Orders",
-            Icon: Icon28Archive,
+            text: "Заказы",
+            Icon: OrdersIcon,
         }
     ];
 

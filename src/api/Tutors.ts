@@ -22,13 +22,9 @@ export const getTutors = async (userdata: string, limit: number, page: number): 
         }
         const data = await ResponseOrders.json();
 
-        const tutorData: TutorPagination = {
-            tutors: data.User || [],
-            pagesCount: data.Pages || 0,
-        };
         console.log("Сохраняем заказы в состояние:", data);
         console.warn(data)
-        return tutorData;
+        return data;
     } catch (error) {
         console.error(error);
         return null

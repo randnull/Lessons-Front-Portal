@@ -5,13 +5,13 @@ export interface TutorDetails {
 }
 
 export interface Tutor {
-    id: string;
-    name: string;
+    Id: string;
+    Name: string;
+    Rating: number;
+    Tags: string[];
 }
 
 export interface TutorPagination {
-    tutors: Tutor[];
-    pagesCount: number;
+    Tutors: Tutor[];
+    Pages: number;
 }
-
-// Edit

@@ -4,10 +4,10 @@ import {Cell, Headline, Pagination, Placeholder, Spinner, Tabbar} from '@telegra
 import styles from './Tutors.module.css';
 import {useNavigate} from "react-router-dom";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
-import {Icon28Archive} from "@telegram-apps/telegram-ui/dist/icons/28/archive";
-import {Icon32ProfileColoredSquare} from "@telegram-apps/telegram-ui/dist/icons/32/profile_colored_square";
 import {getTutors} from "@/api/Tutors.ts";
 import {Tutor} from "@/models/Tutor.ts";
+import UserIcon from "@/icons/user.tsx";
+import OrdersIcon from "@/icons/orders.tsx";
 
 
 export const TutorsPage: FC = () => {
@@ -18,20 +18,20 @@ export const TutorsPage: FC = () => {
     const [IsLoading, SetIsLoading] = useState<boolean>(true);
     const [Error, SetError] = useState<string | null>(null);
     const [LoadTutor, SetTutors] = useState<Tutor[]>([]);
-    const [currentTabId, setCurrentTab] = useState<string>("orders");
+    const [currentTabId, setCurrentTab] = useState<string>("tutors");
 
     const initDataRaw = useSignal<string | undefined>(initData.raw);
 
     const tabs = [
         {
             id: "tutors",
-            text: "Tutors",
-            Icon: Icon32ProfileColoredSquare,
+            text: "Репетиторы",
+            Icon: UserIcon,
         },
         {
             id: "orders",
-            text: "Orders",
-            Icon: Icon28Archive,
+            text: "Заказы",
+            Icon: OrdersIcon,
         }
     ];
 
@@ -44,13 +44,13 @@ export const TutorsPage: FC = () => {
                     return
                 }
                 const data = await getTutors(initDataRaw, 5, page);
-                // console.log("Сохраняем заказы в состояние MyOrders:", data);
+                console.log("Туторы:", data);
                 if (data == null) {
                     SetTutors([]);
                     setMaxPage(0);
                 } else {
-                    SetTutors(data.tutors);
-                    setMaxPage(data.pagesCount);
+                    SetTutors(data.Tutors);
+                    setMaxPage(data.Pages);
                 }
             } catch (err) {
                 console.log(err);
@@ -98,13 +98,13 @@ export const TutorsPage: FC = () => {
                             <Cell
                                 key={index}
                                 // before={<Avatar size={48} />}
-                                description={tutor.name}
+                                description={tutor.Name}
                                 // subhead={order.}
                                 // subtitle={order.min_price}
                                 // titleBadge={order.status == "New" ? <Badge type="dot"/>: <Badge type="dot"/>}
-                                onClick={() => HandleLinkFunc(tutor.id)}
+                                onClick={() => HandleLinkFunc(tutor.Id)}
                             >
-                                {tutor.name}
+                                {tutor.Name}
                             </Cell>
                         ))}
                     </div>
