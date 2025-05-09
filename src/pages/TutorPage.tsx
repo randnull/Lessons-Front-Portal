@@ -5,9 +5,7 @@ import {Headline, Spinner} from "@telegram-apps/telegram-ui";
 import {initData, useSignal} from "@telegram-apps/sdk-react";
 import {TutorDetails} from "@/models/Tutor.ts";
 import {getTutorById} from "@/api/Tutors.ts";
-import styles from "@/pages/ResponsePage.module.css";
-
-// import styles from "./TutorPage.module.css"
+import styles from "./TutorPage.module.css"
 
 
 export const TutorInfoPage: FC = () => {
@@ -53,11 +51,23 @@ export const TutorInfoPage: FC = () => {
                     <Headline weight="1">Репетитор не найден</Headline>
                 ) : (
                     <>
-                        <div>
-                            <Headline weight="1">{tutor.Tutor.Name}</Headline>
-                            <p>О себе: {tutor.Bio} </p>
-                            <p>Id: {tutor.Tutor.Id} </p>
-
+                        <Headline weight="2" className={styles.centeredHeadline}>
+                            Профиль репетитора
+                        </Headline>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                textAlign: "center",
+                                padding: "10px",
+                                gap: "8px",
+                            }}>
+                            <p className={styles.statusText}>
+                                {tutor.Tutor.Name}
+                            </p>
+                        </div>
+                        <div className={styles.orderDetails}>
+                            <p>Описание: {tutor.Bio}</p>
                         </div>
                     </>
                 )}

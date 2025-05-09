@@ -52,7 +52,7 @@
 }
 
 .orderDetails {
-    background-color: var(--tgui--card_bg_color);
+    background-color: var(--tgui--bg_color);
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -60,7 +60,14 @@
 }
 
 .finalResponse {
-    background-color: var(--tgui--button_color);;
+    background-color: var(--tgui--secondary_bg_color);
+    border-radius: 8px;
+    color: var(--tgui--text_color);
+}
+
+.justResponse {
+    background-color: var(--tgui--bg_color);
+    border-radius: 8px;
     color: var(--tgui--text_color);
 }
 
@@ -105,21 +112,9 @@
     color: #d9363e; /* Darker red on hover */
 }
 
-.orderDetailsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .centeredHeadline {
     text-align: center;
     flex-grow: 1;
-}
-
-.orderDetailsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .iconPlaceholder {
@@ -134,4 +129,64 @@
 
 .iconPlaceholder:hover {
     color: #d9363e; /* Тёмно-красный при наведении */
+}
+
+.statusText {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--tgui--text_color);
+    margin: 0;
+}
+
+.sliderContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.switch {
+    position: relative;
+    justify-content: center;
+    display: inline-block;
+    width: 30px;
+    height: 16px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 16px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+    background-color: #2196F3;
+}
+
+.switch input:checked + .slider:before {
+    transform: translateX(14px);
 }

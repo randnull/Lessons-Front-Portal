@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Page } from '@/components/Page';
 import { Button, Cell, Headline, Input, Spinner, Modal, Textarea } from '@telegram-apps/telegram-ui';
 import { OrderDetails, OrderUpdate } from "@/models/Order.ts";
-import { deleteOrder, getOrderById, updateOrder } from "@/api/Orders.ts"; // Add submitReview
+import {deleteOrder, getOrderById, setOrderStatus, updateOrder} from "@/api/Orders.ts"; // Add submitReview
 import { submitReview } from  "@/api/Responses.ts";
 import { initData, useSignal } from "@telegram-apps/sdk-react";
 import EditIcon from "@/icons/edit.tsx";
@@ -25,7 +25,15 @@ export const OrderDetailsPage: FC = () => {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
     const [selectedResponseId, setSelectedResponseId] = useState<string | null>(null);
     const [rating, setRating] = useState<number>(0);
+    const [status, setStatus] = useState<boolean>(false);
     const [reviewText, setReviewText] = useState<string>("");
+    const statusTranslations: { [key: string]: string } = {
+        New: "Новый",
+        Closed: "Закрыт",
+        Selected: "Выбран репетитор",
+        Inactive: "Неактивный",
+        // Add other statuses as needed
+    };
 
     // Load order data
     useEffect(() => {
@@ -37,7 +45,9 @@ export const OrderDetailsPage: FC = () => {
                         return;
                     }
                     const OrderData = await getOrderById(id, initDataRaw);
+                    console.log('Logs', OrderData);
                     setOrder(OrderData);
+                    setStatus(OrderData?.status == "New");
                 } catch (err) {
                     setError('Не удалось получить заказ');
                 } finally {
@@ -128,6 +138,26 @@ export const OrderDetailsPage: FC = () => {
         }
     };
 
+    const getTranslatedStatus = (status: string) => {
+        return statusTranslations[status] || status; // Fallback to original status if no translation
+    };
+
+    const handleToggleStatus = async () => {
+        if (order) {
+            try {
+                const responseStatus = await setOrderStatus(initDataRaw, order.id, !status);
+                if (responseStatus) {
+                    setOrder({...order, status: !status ? "New" : "Inactive"});
+                    setStatus(!status);
+                } else {
+                    throw new Error("Не удалось поменять статус");
+                }
+            } catch (err) {
+                console.error("Error updating status:", err);
+            }
+        }
+    };
+
     const finalResponse = order?.responses?.find((response) => response.is_final);
 
     return (
@@ -187,11 +217,45 @@ export const OrderDetailsPage: FC = () => {
                 />
               </span>
                         </div>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                textAlign: "center",
+                                padding: "10px",
+                                gap: "8px",
+                            }}
+                        >
+                            <p className={styles.statusText}>
+                                Статус: {getTranslatedStatus(order.status)}
+                            </p>
+                            {order.status !== "Closed" && order.status !== "Selected" && (
+                                <div className={styles.sliderContainer}>
+                                    <label className={styles.switch}>
+                                        <input
+                                            type="checkbox"
+                                            checked={status}
+                                            onChange={handleToggleStatus}
+                                        />
+                                        <span className={styles.slider}></span>
+                                    </label>
+                                </div>
+                            )}
+                        </div>
                         <div className={styles.orderDetails}>
                             <Headline weight="1">{order.title}</Headline>
-                            <p>Ставка: {order.min_price} - {order.max_price}</p>
+                            <p>Минимальная цена: {order.min_price}</p>
+                            <p>Максимальная цена: {order.max_price}</p>
+                            <p>Имя: {order.name}</p>
                             <p>Описание: {order.description}</p>
-                            <p>Статус: {order.status}</p>
+                            <p>Создан: {new Date(order.created_at).toLocaleString("ru-RU", {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            }) || 'Неизвестно'}</p>
+                            <p>Статус: {getTranslatedStatus(order.status)}</p>
                         </div>
                         <div className={styles.calls}>
                             <Headline weight="2" className={styles.centeredHeadline}>
@@ -209,7 +273,7 @@ export const OrderDetailsPage: FC = () => {
                                     <div key={index} className={styles.responseContainer}>
                                         <Cell
                                             onClick={() => HandleLinkFunc(response.id)}
-                                            className={response.is_final ? styles.finalResponse : ""}
+                                            className={response.is_final ? styles.finalResponse : styles.justResponse}
                                         >
                                             {response.name}
                                         </Cell>

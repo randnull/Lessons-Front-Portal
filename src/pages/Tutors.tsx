@@ -1,6 +1,6 @@
 import {FC, useEffect, useState} from 'react';
 import { Page } from '@/components/Page';
-import {Cell, Headline, Pagination, Placeholder, Spinner, Tabbar, Select} from '@telegram-apps/telegram-ui';
+import {Banner, Headline, Pagination, Placeholder, Spinner, Tabbar, Select} from '@telegram-apps/telegram-ui';
 import {MultiselectOption} from "@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types";
 import styles from './Tutors.module.css';
 import {useNavigate} from "react-router-dom";
@@ -79,7 +79,7 @@ export const TutorsPage: FC = () => {
                     SetError("Нет токена");
                     return
                 }
-                const data = await getTutors(initDataRaw, 5, page, selectedTag);
+                const data = await getTutors(initDataRaw, 4, page, selectedTag);
                 console.log("Туторы:", data);
                 if (data == null || data.Tutors == null) {
                     SetTutors([]);
@@ -150,17 +150,37 @@ export const TutorsPage: FC = () => {
                 <>
                     <div className={styles.orderList}>
                         {LoadTutor.map((tutor, index) => (
-                            <Cell
+                            <Banner
                                 key={index}
                                 // before={<Avatar size={48} />}
-                                description={tutor.Name}
+                                header={tutor.Name}
+                                description={"Рейтинг " + tutor.Rating + ' ★'}
                                 // subhead={order.}
                                 // subtitle={order.min_price}
                                 // titleBadge={order.status == "New" ? <Badge type="dot"/>: <Badge type="dot"/>}
+                                className={styles.orderItem}
                                 onClick={() => HandleLinkFunc(tutor.Id)}
                             >
-                                {tutor.Name}
-                            </Cell>
+                                <div className={styles.bannerContent}>
+                                    {tutor.Tags && tutor.Tags.length > 0 && (
+                                        <div className={styles.tagsContainer}>
+                                            {tutor.Tags.map((tag, tagIndex) => (
+                                                <span key={tagIndex} className={styles.tag}>
+                {tag
+                    .replace(/_/g, ' ') // Replace underscores with spaces
+                    .split(' ') // Split into words
+                    .map((word, index) =>
+                        index === 0
+                            ? word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                            : word.toLowerCase()
+                    ) // Capitalize first letter of first word, lowercase others
+                    .join(' ')}
+            </span>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </Banner>
                         ))}
                     </div>
                     <div>

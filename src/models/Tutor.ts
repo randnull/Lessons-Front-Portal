@@ -1,6 +1,7 @@
 export interface Tutor {
     Id: string;
-    TelegramId: number;
+    Tags: string[];
+    Rating: number;
     Name: string;
     Role: string;
     IsBanned: boolean;
