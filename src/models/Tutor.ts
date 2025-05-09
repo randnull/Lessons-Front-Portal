@@ -1,14 +1,20 @@
-export interface TutorDetails {
-    id: string;
-    name: string;
-    bio: string;
-}
-
 export interface Tutor {
     Id: string;
+    TelegramId: number;
     Name: string;
-    Rating: number;
+    Role: string;
+    IsBanned: boolean;
+}
+
+export interface TutorDetails {
+    Tutor: Tutor;
+    Bio: string;
+    ResponseCount: number;
+    Reviews: null;
+    IsActive: boolean;
     Tags: string[];
+    Rating: number;
+    CreatedAt: string;
 }
 
 export interface TutorPagination {

@@ -54,12 +54,9 @@ export const TutorInfoPage: FC = () => {
                 ) : (
                     <>
                         <div>
-                            <Headline weight="2">Репетитор</Headline>
-                        </div>
-                        <div>
-                            <Headline weight="1">{tutor.name}</Headline>
-                            <p>О себе: {tutor.bio} </p>
-                            <p>Id: {tutor.id} </p>
+                            <Headline weight="1">{tutor.Tutor.Name}</Headline>
+                            <p>О себе: {tutor.Bio} </p>
+                            <p>Id: {tutor.Tutor.Id} </p>
 
                         </div>
                     </>

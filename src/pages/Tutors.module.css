@@ -36,3 +36,17 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.selectArea {
+    width: 100%;
+    background-color: var(--tgui--secondary_bg_color);
+    border: 1px solid var(--tgui--hint_color);
+    border-radius: 4px;
+    color: var(--tgui--text_color);
+    font-size: 16px;
+}
+
+.tagSelector {
+    width: 100%;
+    margin-bottom: 16px;
+}

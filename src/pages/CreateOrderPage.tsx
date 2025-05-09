@@ -1,4 +1,4 @@
-import {FC, useEffect, useRef, useState} from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Page } from '@/components/Page.tsx';
 import {
     List,
@@ -8,17 +8,14 @@ import {
     Multiselect,
     Select
 } from '@telegram-apps/telegram-ui';
-import {initData, mainButton, useSignal} from "@telegram-apps/sdk-react";
-import {OrderCreate} from "@/models/Order.ts";
-import {createOrder} from "@/api/Orders.ts";
-import {useNavigate} from "react-router-dom";
-import {MultiselectOption} from "@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types";
+import { initData, mainButton, useSignal } from "@telegram-apps/sdk-react";
+import { OrderCreate } from "@/models/Order.ts";
+import { createOrder } from "@/api/Orders.ts";
+import { useNavigate } from "react-router-dom";
+import { MultiselectOption } from "@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types";
 import styles from "./CreateOrderPage.module.css";
 
-const options: MultiselectOption[] = [
-    { value: 'cpp', label: 'C++' },
-    { value: 'python', label: 'Python' }
-];
+import text_tags from "./Tags.txt";
 
 const classOptions = [
     { value: '1', label: '1 класс' },
@@ -48,6 +45,10 @@ export const CreateOrderPage: FC = () => {
     const [minPrice, setMinPrice] = useState<number>(0);
     const [maxPrice, setMaxPrice] = useState<number>(1000);
     const [priceError, setPriceError] = useState<string>('');
+    const [nameError, setNameError] = useState<string>('');
+    const [titleError, setTitleError] = useState<string>('');
+    const [descriptionError, setDescriptionError] = useState<string>('');
+    const [options, setOptions] = useState<MultiselectOption[]>([]);
 
     const initDataRaw = useSignal<string | undefined>(initData.raw);
 
@@ -60,6 +61,41 @@ export const CreateOrderPage: FC = () => {
     const maxPriceRef = useRef(maxPrice);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchTags = async () => {
+            try {
+                const response = await fetch(text_tags, {
+                    headers: {
+                        Accept: "text/plain; charset=utf-8",
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to fetch tags.txt");
+                }
+                const text = await response.text();
+                const tagsArray = text
+                    .replace(/\r\n/g, "\n")
+                    .split("\n\n")
+                    .map((tag) => tag.trim())
+                    .filter((tag) => tag.length > 0);
+                const fetchedOptions: MultiselectOption[] = tagsArray.map(tag => ({
+                    value: tag.toLowerCase().replace(/\s+/g, '_'),
+                    label: tag,
+                }));
+                console.log('Fetched:', fetchedOptions);
+                setOptions(fetchedOptions);
+            } catch (error) {
+                console.error('Error fetching tags:', error);
+                setOptions([
+                    { value: 'cpp', label: 'C++' },
+                    { value: 'python', label: 'Python' },
+                ]);
+            }
+        };
+
+        fetchTags();
+    }, []);
 
     const handleSelect = (selectedOptions: MultiselectOption[]) => {
         setSelectedValues(selectedOptions);
@@ -117,16 +153,43 @@ export const CreateOrderPage: FC = () => {
         }
 
         const offClick = mainButton.onClick(async () => {
-            if (!(nameRef.current.trim() !== '' &&
-                titleRef.current.trim() !== '' &&
-                descriptionRef.current.trim() !== '' &&
-                tagsRef.current.length > 0)) {
+            // Reset errors
+            setNameError('');
+            setTitleError('');
+            setDescriptionError('');
+
+            // Validate fields
+            let hasError = false;
+
+            if (nameRef.current.trim().length < 2) {
+                setNameError('Имя должно содержать не менее 2 символов');
+                hasError = true;
+            }
+
+            if (titleRef.current.trim().length < 5) {
+                setTitleError('Название должно содержать не менее 5 символов');
+                hasError = true;
+            }
+
+            if (descriptionRef.current.trim().length < 10) {
+                setDescriptionError('Описание должно содержать не менее 10 символов');
+                hasError = true;
+            }
+
+            if (nameRef.current.trim() === '' ||
+                titleRef.current.trim() === '' ||
+                descriptionRef.current.trim() === '' ||
+                tagsRef.current.length === 0) {
                 alert('Заполните все обязательные поля');
-                return;
+                hasError = true;
             }
 
             if (priceError) {
                 alert(priceError);
+                hasError = true;
+            }
+
+            if (hasError) {
                 return;
             }
 
@@ -184,6 +247,11 @@ export const CreateOrderPage: FC = () => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
+                {titleError && (
+                    <div style={{ color: 'red', marginTop: '8px' }}>
+                        {titleError}
+                    </div>
+                )}
                 <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
                     Опишите задачу
                 </Headline>
@@ -194,6 +262,11 @@ export const CreateOrderPage: FC = () => {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
+                {descriptionError && (
+                    <div style={{ color: 'red', marginTop: '8px' }}>
+                        {descriptionError}
+                    </div>
+                )}
                 <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
                     Класс/Курс
                 </Headline>
@@ -218,6 +291,11 @@ export const CreateOrderPage: FC = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                {nameError && (
+                    <div style={{ color: 'red', marginTop: '8px' }}>
+                        {nameError}
+                    </div>
+                )}
                 <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
                     Предметы
                 </Headline>

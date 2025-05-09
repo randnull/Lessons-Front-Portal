@@ -45,7 +45,10 @@
 }
 
 .calls {
-
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
 
 .orderDetails {
@@ -57,6 +60,78 @@
 }
 
 .finalResponse {
-    background-color: green;
-    color: white;
+    background-color: var(--tgui--button_color);;
+    color: var(--tgui--text_color);
+}
+
+.reviewModal {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.starRating {
+    display: flex;
+    gap: 5px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.star {
+    color: #ccc;
+}
+
+.starActive {
+    color: #ffd700;
+}
+
+.reviewTextarea {
+    min-height: 100px;
+}
+
+.submitButton {
+    margin-top: 10px;
+}
+
+.deleteIcon {
+    cursor: pointer;
+    font-size: 20px;
+    color: #ff4d4f; /* Red color for delete icon */
+    padding: 8px;
+}
+
+.deleteIcon:hover {
+    color: #d9363e; /* Darker red on hover */
+}
+
+.orderDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.centeredHeadline {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.orderDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iconPlaceholder {
+    width: 36px; /* Фиксированная ширина для иконок и заполнителей */
+    height: 36px; /* Фиксированная высота */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ff4d4f; /* Красный цвет для иконки удаления */
+}
+
+.iconPlaceholder:hover {
+    color: #d9363e; /* Тёмно-красный при наведении */
 }
