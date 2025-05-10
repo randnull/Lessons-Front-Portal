@@ -48,6 +48,7 @@ export const CreateOrderPage: FC = () => {
     const [nameError, setNameError] = useState<string>('');
     const [titleError, setTitleError] = useState<string>('');
     const [descriptionError, setDescriptionError] = useState<string>('');
+    const [tagsError, setTagsError] = useState<string>(''); // New state for tags error
     const [options, setOptions] = useState<MultiselectOption[]>([]);
 
     const initDataRaw = useSignal<string | undefined>(initData.raw);
@@ -98,6 +99,11 @@ export const CreateOrderPage: FC = () => {
     }, []);
 
     const handleSelect = (selectedOptions: MultiselectOption[]) => {
+        if (selectedOptions.length > 3) {
+            setTagsError('Можно выбрать не более 3 тегов');
+            return;
+        }
+        setTagsError('');
         setSelectedValues(selectedOptions);
         setTags(selectedOptions.map(option => String(option.value)));
     };
@@ -157,6 +163,7 @@ export const CreateOrderPage: FC = () => {
             setNameError('');
             setTitleError('');
             setDescriptionError('');
+            setTagsError('');
 
             // Validate fields
             let hasError = false;
@@ -176,10 +183,17 @@ export const CreateOrderPage: FC = () => {
                 hasError = true;
             }
 
+            if (tagsRef.current.length === 0) {
+                setTagsError('Выберите хотя бы один тег');
+                hasError = true;
+            } else if (tagsRef.current.length > 3) {
+                setTagsError('Можно выбрать не более 3 тегов');
+                hasError = true;
+            }
+
             if (nameRef.current.trim() === '' ||
                 titleRef.current.trim() === '' ||
-                descriptionRef.current.trim() === '' ||
-                tagsRef.current.length === 0) {
+                descriptionRef.current.trim() === '') {
                 alert('Заполните все обязательные поля');
                 hasError = true;
             }
@@ -305,6 +319,11 @@ export const CreateOrderPage: FC = () => {
                     value={selectedValues}
                     onChange={handleSelect}
                 />
+                {tagsError && (
+                    <div style={{ color: 'red', marginTop: '8px' }}>
+                        {tagsError}
+                    </div>
+                )}
                 <Headline weight="2" style={{ marginBottom: '8px', marginTop: '16px' }}>
                     Укажите цену заказа
                 </Headline>

@@ -154,7 +154,9 @@ export const TutorsPage: FC = () => {
                                 key={index}
                                 // before={<Avatar size={48} />}
                                 header={tutor.Name}
-                                description={"Рейтинг " + tutor.Rating + ' ★'}
+                                description={<span>
+        Рейтинг {tutor.Rating} <span className={styles.star}>★</span>
+      </span>}
                                 // subhead={order.}
                                 // subtitle={order.min_price}
                                 // titleBadge={order.status == "New" ? <Badge type="dot"/>: <Badge type="dot"/>}

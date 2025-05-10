@@ -182,3 +182,30 @@ export const setOrderStatus = async (userdata: string | undefined, id: string | 
         return false;
     }
 }
+
+export const suggestOrderToTutor = async (userdata: string | undefined, id: string | undefined, order_id: string | undefined): Promise<boolean> => {
+    try {
+        const AuthToken = localStorage.getItem("token");
+        if (!AuthToken || !userdata) {
+            return false;
+        }
+
+        const responseOrder = await fetch(`${api_link}/orders/suggest/${id}/?order_id=${order_id}`, {
+            method: "POST",
+            headers: {"content-type": 'application/json', "Authorization": AuthToken },
+        })
+
+        console.log("Response status:", responseOrder.status);
+        console.log("Response headers:", responseOrder.headers);
+
+        if (!responseOrder.ok) {
+            const error = await responseOrder.json();
+            throw new Error("Ошибка при обновлении заказа" + error.error);
+        }
+        return responseOrder.ok;
+    } catch (error) {
+        // throw new Error("Ошибка при удалении заказа:")
+        console.error(error);
+        return false;
+    }
+}

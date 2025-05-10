@@ -105,3 +105,8 @@
 .orderItem:active {
     background-color: var(--tgui--hint_color); /* Feedback when clicked */
 }
+
+.star {
+    color: #f39c12; /* Gold color for the star */
+    font-size: 1.2em; /* Optional: Adjust size if needed */
+}
