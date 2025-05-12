@@ -79,7 +79,7 @@ export const TutorsPage: FC = () => {
                     SetError("Нет токена");
                     return
                 }
-                const data = await getTutors(initDataRaw, 4, page, selectedTag);
+                const data = await getTutors(initDataRaw, 3, page, selectedTag);
                 console.log("Туторы:", data);
                 if (data == null || data.Tutors == null) {
                     SetTutors([]);

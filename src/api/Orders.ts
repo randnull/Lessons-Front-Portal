@@ -190,7 +190,7 @@ export const suggestOrderToTutor = async (userdata: string | undefined, id: stri
             return false;
         }
 
-        const responseOrder = await fetch(`${api_link}/orders/suggest/${id}/?order_id=${order_id}`, {
+        const responseOrder = await fetch(`${api_link}/orders/suggest/tutor_id/${id}/?order_id=${order_id}`, {
             method: "POST",
             headers: {"content-type": 'application/json', "Authorization": AuthToken },
         })

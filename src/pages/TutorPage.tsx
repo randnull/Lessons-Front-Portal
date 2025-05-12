@@ -73,6 +73,7 @@ export const TutorInfoPage: FC = () => {
 
         const offClick = mainButton.onClick(async () => {
             setIsModalOpen(true);
+            fetchNewOrders();
             mainButton.setParams({
                 isVisible: false
             });
@@ -129,7 +130,7 @@ export const TutorInfoPage: FC = () => {
         }
         setIsSuggesting(true);
         try {
-            await suggestOrderToTutor(initDataRaw, orderId, id);
+            await suggestOrderToTutor(initDataRaw, id, orderId);
             setIsModalOpen(false); // Close modal on success
             alert('Заказ успешно предложен репетитору!');
         } catch (err) {
@@ -195,17 +196,6 @@ export const TutorInfoPage: FC = () => {
                                 ))
                             )}
                         </div>
-                        <Button
-                            mode="filled"
-                            size="l"
-                            className={styles.suggestButton}
-                            onClick={() => {
-                                setIsModalOpen(true);
-                                fetchNewOrders();
-                            }}
-                        >
-                            Предложить заказ
-                        </Button>
                     </>
                 )}
             </div>
