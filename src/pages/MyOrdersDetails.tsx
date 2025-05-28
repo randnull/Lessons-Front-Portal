@@ -32,6 +32,7 @@ export const OrderDetailsPage: FC = () => {
         Closed: "Закрыт",
         Selected: "Выбран репетитор",
         Inactive: "Неактивный",
+        Waiting: "Ожидание",
         // Add other statuses as needed
     };
 
@@ -229,7 +230,7 @@ export const OrderDetailsPage: FC = () => {
                             <p className={styles.statusText}>
                                 Статус: {getTranslatedStatus(order.status)}
                             </p>
-                            {order.status !== "Closed" && order.status !== "Selected" && (
+                            {order.status !== "Closed" && order.status !== "Selected" && order.status !== "Waiting" && (
                                 <div className={styles.sliderContainer}>
                                     <label className={styles.switch}>
                                         <input
