@@ -64,7 +64,7 @@ export const getToken = async (userdata: string): Promise<string | null> => {
 
 export const getOrders = async (userdata: string, limit: number, page: number): Promise<OrderPagination | null> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return null // navigate auth page
         }
@@ -72,6 +72,7 @@ export const getOrders = async (userdata: string, limit: number, page: number): 
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return null;
             }
@@ -106,7 +107,7 @@ export const getOrders = async (userdata: string, limit: number, page: number): 
 
 export const getOrderById = async (id: string, userdata: string): Promise<OrderDetails | null> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return null // navigate auth page
         }
@@ -114,6 +115,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<OrderD
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return null;
             }
@@ -137,7 +139,7 @@ export const getOrderById = async (id: string, userdata: string): Promise<OrderD
 
 export const createOrder = async (orderdata: OrderCreate, userdata: string): Promise<string | null> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return null // navigate auth page
         }
@@ -145,6 +147,7 @@ export const createOrder = async (orderdata: OrderCreate, userdata: string): Pro
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return null;
             }
@@ -169,7 +172,7 @@ export const createOrder = async (orderdata: OrderCreate, userdata: string): Pro
 
 export const deleteOrder = async (id: string, userdata: string): Promise<void> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return
         }
@@ -177,6 +180,7 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return;
             }
@@ -198,7 +202,7 @@ export const deleteOrder = async (id: string, userdata: string): Promise<void> =
 
 export const updateOrder = async (id: string, userdata: string, orderdata: OrderUpdate): Promise<void> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return
         }
@@ -206,6 +210,7 @@ export const updateOrder = async (id: string, userdata: string, orderdata: Order
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return;
             }
@@ -231,7 +236,7 @@ export const updateOrder = async (id: string, userdata: string, orderdata: Order
 
 export const selectTutorForOrder = async (responseId: string, userdata: string): Promise<void> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return
         }
@@ -239,6 +244,7 @@ export const selectTutorForOrder = async (responseId: string, userdata: string):
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return;
             }
@@ -263,7 +269,7 @@ export const selectTutorForOrder = async (responseId: string, userdata: string):
 
 export const setOrderStatus = async (userdata: string | undefined, id: string | undefined, status: boolean): Promise<boolean> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return false;
         }
@@ -271,6 +277,7 @@ export const setOrderStatus = async (userdata: string | undefined, id: string | 
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return false;
             }
@@ -298,7 +305,7 @@ export const setOrderStatus = async (userdata: string | undefined, id: string | 
 
 export const suggestOrderToTutor = async (userdata: string | undefined, id: string | undefined, order_id: string | undefined): Promise<boolean> => {
     try {
-        const AuthToken = localStorage.getItem("token");
+        let AuthToken = localStorage.getItem("token");
         if (!AuthToken || !userdata) {
             return false;
         }
@@ -306,6 +313,7 @@ export const suggestOrderToTutor = async (userdata: string | undefined, id: stri
             const token = await getToken(userdata);
             if (token) {
                 localStorage.setItem('token', token);
+                AuthToken = token;
             } else {
                 return false;
             }

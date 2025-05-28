@@ -196,7 +196,7 @@ export const ResponsePage: FC = () => {
                 ) : (
                     <>
                         <div className={styles.responseDetailsHeader}>
-                            <Headline weight="2">Отлик # {currentResponse.id.slice(0, 8)}</Headline>
+                            <Headline weight="2">Отклик</Headline>
                         </div>
                         <div className={styles.responseDetails}>
                             <Headline weight="1">{currentResponse.name}</Headline>
